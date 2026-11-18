@@ -107,12 +107,33 @@ const KOMUT = {
   sureli: (ch, sn) => { const d = Math.max(1, Math.min(0x7FFF, Math.round(sn*10))); return cerceve([1,5,2,ch,d>>8,d&0xFF]); }
 };
 
-function gonder(b){
-  if(!istemci || !bagli){ bilgi("Bağlantı yok, komut gönderilemedi"); return false; }
+let kuyruk = [];          // baglanti yokken basilan komutlar
+let bekleyen = [];        // onay bekleyen komutlar: {b, zaman}
+function gonder(b, sessiz){
+  if(!ayar.kod){ bilgi("Önce gizli kodu girin"); return false; }
+  if(!istemci || !bagli){
+    if(!sessiz){ kuyruk.push(b); bilgi("Bağlanıyor, komut bağlanınca gönderilecek…"); }
+    yenidenBaglan();
+    return true;
+  }
   istemci.publish(konu("komut"), b, {qos:0});
+  if(b[1] === 5) bekleyen.push({b: Array.from(b).join(","), ham: b, zaman: Date.now(), deneme: (b._deneme || 0)});
   log("→ " + hx(b));
   return true;
 }
+function kuyruguGonder(){ const k = kuyruk; kuyruk = []; k.forEach(b => gonder(b)); }
+// 3 sn icinde onay gelmeyen komut icin uyari + baglantiyi tazele
+setInterval(() => {
+  const simdi = Date.now();
+  const geciken = bekleyen.filter(x => simdi - x.zaman > 3000);
+  if(geciken.length){
+    bekleyen = bekleyen.filter(x => simdi - x.zaman <= 3000);
+    const tekrar = geciken.filter(x => x.deneme < 1);
+    tekrar.forEach(x => { x.ham._deneme = x.deneme + 1; kuyruk.push(x.ham); });
+    bilgi(tekrar.length ? "Komut ulaşmadı, yeniden bağlanıp tekrar gönderiliyor…" : "Kart cevap vermiyor. İnterneti ve kartı kontrol edin.");
+    sonYeniden = 0; yenidenBaglan();
+  }
+}, 1000);
 
 // ---------- Ekran ----------
 const izgara = document.getElementById("izgara");
@@ -160,6 +181,7 @@ function durumYaz(){
   const d = document.getElementById("durum");
   if(!ayar.kod) return;
   const cevapYok = bagli && Date.now() - sonCevap > 15000;
+  if(!bagli && Date.now() - sonYeniden < 8000) return;
   d.innerHTML = !bagli ? '<span class="nokta" style="background:#e74c3c"></span>Sunucuya bağlanılamıyor'
     : cevapYok ? '<span class="nokta" style="background:#f39c12"></span>Sunucuya bağlı, kart cevap vermiyor'
     : '<span class="nokta" style="background:#2ecc71"></span>Kart bağlı';
@@ -205,7 +227,7 @@ function sureliAc(i, sn){
   if(!gonder(KOMUT.sureli(i, Math.min(sn, KART_MAX_SN)))) return;
   sayaclar[i] = bitis; yenileme[i] = Date.now(); kaydetSayac();
   bilgi("CH" + (i+1) + " " + Math.round(sn/60) + " dk açıldı");
-  setTimeout(() => gonder(KOMUT.oku()), 1200);
+  setTimeout(() => gonder(KOMUT.oku(), true), 1200);
 }
 setInterval(() => {
   const simdi = Date.now();
@@ -223,9 +245,17 @@ setInterval(() => {
 }, 1000);
 
 // ---------- MQTT ----------
+let sonYeniden = 0;
+function yenidenBaglan(){
+  if(Date.now() - sonYeniden < 2000) return;   // ust uste tetiklenmesin
+  sonYeniden = Date.now();
+  baglan();
+}
 function baglan(){
-  if(istemci){ try { istemci.end(true); } catch(e){} }
-  bagli = false; durumYaz();
+  sonYeniden = Date.now();
+  if(istemci){ try { istemci.removeAllListeners(); istemci.end(true); } catch(e){} }
+  bagli = false; bekleyen = [];
+  document.getElementById("durum").innerHTML = '<span class="nokta" style="background:#f39c12"></span>Bağlanıyor…';
   istemci = mqtt.connect(ayar.sunucu, {
     clientId: "telefon-" + Math.random().toString(16).slice(2, 10),
     reconnectPeriod: 3000, connectTimeout: 10000, keepalive: 30, clean: true
@@ -233,7 +263,8 @@ function baglan(){
   istemci.on("connect", () => {
     bagli = true; durumYaz();
     istemci.subscribe([konu("cevap"), konu("isimler")], {qos:0});
-    gonder(KOMUT.oku());
+    gonder(KOMUT.oku(), true);
+    kuyruguGonder();
   });
   istemci.on("close", () => { bagli = false; durumYaz(); });
   istemci.on("error", e => log("Hata: " + (e && e.message)));
@@ -244,6 +275,7 @@ function baglan(){
     }
     const b = new Uint8Array(msj);
     sonCevap = Date.now();
+    if(b[1] === 5){ const anahtar = Array.from(b).join(","); bekleyen = bekleyen.filter(x => x.b !== anahtar); }
     log("← " + hx(b));
     if(b.length >= 3 && b[1] === 1){
       for(let i=0;i<N;i++) roleler[i] = !!((b[3 + (i>>3)] >> (i&7)) & 1);
@@ -256,8 +288,16 @@ function baglan(){
   });
 }
 // durumu duzenli tazele (baska cihazdan yapilan degisiklikler ve kartin kendi kapattiklari icin)
-setInterval(() => { if(bagli) gonder(KOMUT.oku()); }, 5000);
-document.addEventListener("visibilitychange", () => { if(!document.hidden && bagli) gonder(KOMUT.oku()); });
+setInterval(() => { if(bagli) gonder(KOMUT.oku(), true); }, 5000);
+// iPhone kilitlenip acilinca baglanti sessizce kopar: ekrana donunce HER ZAMAN yeniden baglan
+let sonGorunur = Date.now();
+function ekranaDondu(){
+  if(document.hidden) { sonGorunur = Date.now(); return; }
+  if(ayar.kod) yenidenBaglan();
+}
+document.addEventListener("visibilitychange", ekranaDondu);
+window.addEventListener("pageshow", e => { if(e.persisted) ekranaDondu(); });
+window.addEventListener("online", () => { if(ayar.kod) yenidenBaglan(); });
 
 ciz();
 if(!ayar.kod){
