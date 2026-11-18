@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Röle Kontrol">
+<meta name="theme-color" content="#10141a">
+<title>Röle Kontrol</title>
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAADVklEQVR42u3dMW7cMBAFUJpgFyAwEle+T66QQ+YKOVNSBEifPjAMY0WKM8P3axde6e2fgVa7enp+eW0ib6U7BAKHwCFwCBwCh8AhcAgcAofAIQKHwCFwCBwCh8AhOTIC/k+fPn8582T8/fMbDho+dBy2WxlMxLeyS8nAIouS+4kMLBDZjwOLdEQ6GQVW18Q4yEh6VAcWRsyG5iAje4V0Mvi4FQcZNXwMMj6erz++vf8Hv77/3Otj7v7RyZglo15/+Mh+WvbWRvSdQ20UK49ORiUZc89FJ6PkTJlyRuwc1Woj1s5hoMRcRa+fF80hy3CojcKbqea4KqPe5Y05OKrWRqUl9Mo50hwCx5raKDxTLuEoOVNKXtV4+ExpDoFjQW3UnilwuEwOR3P3xo04im2j5WvjsfOlOQwUOMwUONQGHGTAYabAoTbgIAOO0jLOmSl2DoFDbcBh1YBD4AhWG6fNlINwGChwCBy318aBM+UIHAYKHALHjto4c6YUx2GgwNHcvQGH2oCDDDjMlPh5en55bbW+1JSuNu4h+MDPoncDRTkdgcOqAYedBg4DBQ4y4BA7h9oodPmkk0GGsULGYThc2IDDQIHDQIHjwNpI+uluJ0OMFbVxAA4DBQ4y4LBqwGHVgENtlLozuZMhxoraqIjDQIGDDDgEDrXRfB2yuQU1iQxfhyTDziFwWDXgIAMOv4YOh8BhoHiWvZniidRCBhwCh9qA4+aFw9MhReBQG3CQAcfChcPDeETgMFDgmDJTDn+khuYgAw6BQ23AsXbhIENzkAGHwDFlpqgNzUEGHGTAIXAsXDjUxkwcD3yf30BpqX5/wViR43G8M1MMFM1BBhxkBMFRaSe1jR7aHG8uHGoDDgNlH46Mk+U0GVfOkescsgxH8PL4b+FQG5rDQAmzkKbYPA6Ucf28dLcTy1ocwctDbWxujrA+yAgxVgL6IMPOYeHIcPk8VHmojbblSU3tmOc4HStj1VjxaX4BGQt3Dj6yy1i7kPKRWkZrbdzwf1tBkr79eoHXQEbuO8H4yHg8x82vx4hJ9DYbW14bIinad2x8nYgEH8ojwmumJOaiNgIehWOtRFvbh2MkbjAWOAQOgUPgEDgEDoFD4BA4ROAQOAQOgUPgEDgkR/4BhCVydmnYrEAAAAAASUVORK5CYII=">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAADVklEQVR42u3dMW7cMBAFUJpgFyAwEle+T66QQ+YKOVNSBEifPjAMY0WKM8P3axde6e2fgVa7enp+eW0ib6U7BAKHwCFwCBwCh8AhcAgcAofAIQKHwCFwCBwCh8AhOTIC/k+fPn8582T8/fMbDho+dBy2WxlMxLeyS8nAIouS+4kMLBDZjwOLdEQ6GQVW18Q4yEh6VAcWRsyG5iAje4V0Mvi4FQcZNXwMMj6erz++vf8Hv77/3Otj7v7RyZglo15/+Mh+WvbWRvSdQ20UK49ORiUZc89FJ6PkTJlyRuwc1Woj1s5hoMRcRa+fF80hy3CojcKbqea4KqPe5Y05OKrWRqUl9Mo50hwCx5raKDxTLuEoOVNKXtV4+ExpDoFjQW3UnilwuEwOR3P3xo04im2j5WvjsfOlOQwUOMwUONQGHGTAYabAoTbgIAOO0jLOmSl2DoFDbcBh1YBD4AhWG6fNlINwGChwCBy318aBM+UIHAYKHALHjto4c6YUx2GgwNHcvQGH2oCDDDjMlPh5en55bbW+1JSuNu4h+MDPoncDRTkdgcOqAYedBg4DBQ4y4BA7h9oodPmkk0GGsULGYThc2IDDQIHDQIHjwNpI+uluJ0OMFbVxAA4DBQ4y4LBqwGHVgENtlLozuZMhxoraqIjDQIGDDDgEDrXRfB2yuQU1iQxfhyTDziFwWDXgIAMOv4YOh8BhoHiWvZniidRCBhwCh9qA4+aFw9MhReBQG3CQAcfChcPDeETgMFDgmDJTDn+khuYgAw6BQ23AsXbhIENzkAGHwDFlpqgNzUEGHGTAIXAsXDjUxkwcD3yf30BpqX5/wViR43G8M1MMFM1BBhxkBMFRaSe1jR7aHG8uHGoDDgNlH46Mk+U0GVfOkescsgxH8PL4b+FQG5rDQAmzkKbYPA6Ucf28dLcTy1ocwctDbWxujrA+yAgxVgL6IMPOYeHIcPk8VHmojbblSU3tmOc4HStj1VjxaX4BGQt3Dj6yy1i7kPKRWkZrbdzwf1tBkr79eoHXQEbuO8H4yHg8x82vx4hJ9DYbW14bIinad2x8nYgEH8ojwmumJOaiNgIehWOtRFvbh2MkbjAWOAQOgUPgEDgEDoFD4BA4ROAQOAQOgUPgEDgkR/4BhCVydmnYrEAAAAAASUVORK5CYII=">
+<style>
+  :root{--bg:#10141a;--kart:#1b222c;--yazi:#e8edf3;--soluk:#8a96a6;--acik:#2ecc71;--kapali:#3a4452;--uyari:#f39c12;--kirmizi:#e74c3c}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;font-family:-apple-system,system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--yazi);padding-bottom:env(safe-area-inset-bottom)}
+  header{position:sticky;top:0;z-index:5;background:#0b0f14;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;display:flex;gap:10px;align-items:center;justify-content:space-between;border-bottom:1px solid #222b36}
+  h1{font-size:17px;margin:0}
+  .durum{font-size:12px;color:var(--soluk);margin-top:2px}
+  .nokta{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle;background:#888}
+  button{border:0;border-radius:9px;padding:8px 12px;font-size:14px;cursor:pointer;color:#fff;background:#2d3846;font-family:inherit}
+  button:active{transform:scale(.97)}
+  .kirmizi{background:var(--kirmizi)}
+  main{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;padding:12px}
+  .kanal{background:var(--kart);border-radius:12px;padding:10px;border:2px solid transparent}
+  .kanal.on{border-color:var(--acik)}
+  .ust{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:6px}
+  .ad{font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer}
+  .no{font-size:11px;color:var(--soluk);flex-shrink:0}
+  .anahtar{width:100%;padding:12px;font-size:15px;font-weight:700;background:var(--kapali)}
+  .on .anahtar{background:var(--acik);color:#06210f}
+  .sure{display:flex;gap:6px;margin-top:8px}
+  .sure select{flex:1;padding:7px;border-radius:8px;border:1px solid #2d3846;background:#0f141a;color:var(--yazi);font-size:13px}
+  .sure button{padding:7px 10px;font-size:13px;background:#34495e}
+  .geri{font-size:12px;color:var(--uyari);margin-top:6px;min-height:15px}
+  .panel{margin:12px;padding:12px;background:var(--kart);border-radius:12px;font-size:13px}
+  .panel label{display:block;color:var(--soluk);margin:8px 0 3px}
+  .panel input{width:100%;padding:8px;border-radius:8px;border:1px solid #2d3846;background:#0f141a;color:var(--yazi);font-size:14px}
+  .gizli{display:none}
+  #bilgi{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#000c;padding:10px 14px;border-radius:10px;font-size:13px;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90%}
+  footer{padding:4px 14px 20px;color:var(--soluk);font-size:11px;font-family:Consolas,monospace;word-break:break-all}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>⚡ Röle Kontrol</h1>
+    <div class="durum" id="durum"><span class="nokta"></span>Bağlanıyor…</div>
+  </div>
+  <div style="display:flex;gap:6px">
+    <button id="ayarBtn" title="Ayarlar">⚙︎</button>
+    <button class="kirmizi" id="hepsiBtn">Hepsini kapat</button>
+  </div>
+</header>
+
+<div class="panel gizli" id="ayarlar">
+  <b>Bağlantı ayarları</b>
+  <label>MQTT sunucusu (WebSocket)</label>
+  <input id="aSunucu">
+  <label>Kartın gizli kodu</label>
+  <input id="aKod" placeholder="örnek: rk30-abc123" autocapitalize="off" autocorrect="off" spellcheck="false">
+  <p id="kodUyari" style="color:var(--uyari);margin:8px 0 0" class="gizli">Kontrol için önce kartın gizli kodunu girin.</p>
+  <div style="display:flex;gap:8px;margin-top:10px">
+    <button id="kaydetBtn" style="background:#2e7d4f">Kaydet ve bağlan</button>
+    <button id="kapatAyar">Kapat</button>
+  </div>
+  <p style="color:var(--soluk);margin:10px 0 0">Kanal isimlerini değiştirmek için kanalın adına dokunun.</p>
+</div>
+
+<main id="izgara"></main>
+<footer id="log"></footer>
+<div id="bilgi"></div>
+
+<script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script>
+<script>
+// ===================== VARSAYILAN AYARLAR =====================
+const VARSAYILAN = {
+  sunucu: "wss://test.mosquitto.org:8081/mqtt",
+  kod: ""          // gizli kod sayfada DURMAZ; her cihazda Ayarlar'dan bir kez girilir
+};
+const konu = k => ayar.kod + "/" + k;   // komut, cevap, isimler
+const N = 30;
+const KART_MAX_SN = 3270;      // kartin kendi zamanlayicisi ~54 dk
+// ==============================================================
+
+const depo = {
+  al(k, v){ try { const x = localStorage.getItem(k); return x === null ? v : JSON.parse(x); } catch(e){ return v; } },
+  yaz(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+};
+let ayar = Object.assign({}, VARSAYILAN, depo.al("rk_ayar", {}));
+delete ayar.komut; delete ayar.cevap;
+let isimler = depo.al("rk_isimler", Array.from({length:N}, (_, i) => "Kanal " + (i+1)));
+let roleler = Array(N).fill(false);
+let sayaclar = depo.al("rk_sayac", {});   // kanal -> bitis zamani (ms)
+let yenileme = depo.al("rk_yenileme", {}); // kanal -> karta son sureli komutun gonderildigi an
+function kaydetSayac(){ depo.yaz("rk_sayac", sayaclar); depo.yaz("rk_yenileme", yenileme); }
+let istemci = null, bagli = false, sonCevap = 0;
+
+// ---------- Modbus ----------
+function crc16(b){ let c=0xFFFF; for(const x of b){ c^=x; for(let i=0;i<8;i++) c = (c&1) ? (c>>1)^0xA001 : c>>1; } return [c&0xFF, c>>8]; }
+function cerceve(arr){ return new Uint8Array([...arr, ...crc16(arr)]); }
+const hx = b => Array.from(b).map(x => x.toString(16).padStart(2,"0").toUpperCase()).join(" ");
+const KOMUT = {
+  ac:     ch => cerceve([1,5,0,ch,0xFF,0]),
+  kapat:  ch => cerceve([1,5,0,ch,0,0]),
+  oku:    () => cerceve([1,1,0,0,0,N]),
+  hepsi:  () => cerceve([1,5,0,0xFF,0,0]),
+  sureli: (ch, sn) => { const d = Math.max(1, Math.min(0x7FFF, Math.round(sn*10))); return cerceve([1,5,2,ch,d>>8,d&0xFF]); }
+};
+
+function gonder(b){
+  if(!istemci || !bagli){ bilgi("Bağlantı yok, komut gönderilemedi"); return false; }
+  istemci.publish(konu("komut"), b, {qos:0});
+  log("→ " + hx(b));
+  return true;
+}
+
+// ---------- Ekran ----------
+const izgara = document.getElementById("izgara");
+for(let i=0;i<N;i++){
+  izgara.insertAdjacentHTML("beforeend", `
+  <div class="kanal" id="k${i}">
+    <div class="ust"><span class="ad" data-i="${i}"></span><span class="no">CH${i+1}</span></div>
+    <button class="anahtar" data-i="${i}">KAPALI</button>
+    <div class="sure">
+      <select id="s${i}">
+        <option value="300">5 dk</option><option value="600" selected>10 dk</option>
+        <option value="900">15 dk</option><option value="1200">20 dk</option>
+        <option value="1800">30 dk</option><option value="2700">45 dk</option>
+        <option value="3600">1 saat</option><option value="5400">1,5 saat</option>
+        <option value="7200">2 saat</option>
+      </select>
+      <button data-sure="${i}">Süreli aç</button>
+    </div>
+    <div class="geri" id="g${i}"></div>
+  </div>`);
+}
+function ciz(){
+  for(let i=0;i<N;i++){
+    const k = document.getElementById("k"+i);
+    k.classList.toggle("on", roleler[i]);
+    k.querySelector(".anahtar").textContent = roleler[i] ? "AÇIK" : "KAPALI";
+    k.querySelector(".ad").textContent = isimler[i];
+  }
+  sayacCiz();
+}
+function sayacCiz(){
+  const simdi = Date.now();
+  for(let i=0;i<N;i++){
+    const t = sayaclar[i];
+    const el = document.getElementById("g"+i);
+    if(t && t > simdi && roleler[i]){
+      const s = Math.round((t - simdi)/1000), h = Math.floor(s/3600), m = Math.floor(s%3600/60), sn = s%60;
+      el.textContent = "⏱ Kapanmaya: " + (h ? h+" sa " : "") + String(m).padStart(2,"0") + ":" + String(sn).padStart(2,"0");
+    } else el.textContent = "";
+  }
+}
+function bilgi(t){ const b = document.getElementById("bilgi"); b.textContent = t; b.style.opacity = 1; clearTimeout(bilgi.z); bilgi.z = setTimeout(() => b.style.opacity = 0, 2500); }
+function log(t){ document.getElementById("log").textContent = new Date().toLocaleTimeString("tr-TR") + "  " + t; }
+function durumYaz(){
+  const d = document.getElementById("durum");
+  if(!ayar.kod) return;
+  const cevapYok = bagli && Date.now() - sonCevap > 15000;
+  d.innerHTML = !bagli ? '<span class="nokta" style="background:#e74c3c"></span>Sunucuya bağlanılamıyor'
+    : cevapYok ? '<span class="nokta" style="background:#f39c12"></span>Sunucuya bağlı, kart cevap vermiyor'
+    : '<span class="nokta" style="background:#2ecc71"></span>Kart bağlı';
+}
+
+// ---------- Olaylar ----------
+izgara.addEventListener("click", e => {
+  const a = e.target.closest(".anahtar"), s = e.target.closest("[data-sure]"), ad = e.target.closest(".ad");
+  if(a){
+    const i = +a.dataset.i;
+    if(gonder(roleler[i] ? KOMUT.kapat(i) : KOMUT.ac(i))){ delete sayaclar[i]; delete yenileme[i]; kaydetSayac(); }
+  } else if(s){
+    sureliAc(+s.dataset.sure, +document.getElementById("s"+s.dataset.sure).value);
+  } else if(ad){
+    const i = +ad.dataset.i;
+    const yeni = window.prompt("CH" + (i+1) + " için isim:", isimler[i]);
+    if(yeni && yeni.trim()){
+      isimler[i] = yeni.trim().slice(0,30); depo.yaz("rk_isimler", isimler); ciz();
+      if(istemci && bagli) istemci.publish(konu("isimler"), JSON.stringify(isimler), {qos:1, retain:true});
+    }
+  }
+});
+document.getElementById("hepsiBtn").onclick = () => {
+  if(window.confirm("Tüm röleler kapatılsın mı?") && gonder(KOMUT.hepsi())){ sayaclar = {}; yenileme = {}; kaydetSayac(); }
+};
+document.getElementById("ayarBtn").onclick = () => {
+  aSunucu.value = ayar.sunucu; aKod.value = ayar.kod;
+  document.getElementById("ayarlar").classList.toggle("gizli");
+};
+document.getElementById("kapatAyar").onclick = () => document.getElementById("ayarlar").classList.add("gizli");
+document.getElementById("kaydetBtn").onclick = () => {
+  ayar = { sunucu: aSunucu.value.trim(), kod: aKod.value.trim() };
+  depo.yaz("rk_ayar", ayar);
+  document.getElementById("ayarlar").classList.add("gizli");
+  baglan();
+};
+
+// ---------- Sureli acma ----------
+// <= 54 dk: sureyi KART sayar (sayfa kapansa da zamaninda kapanir).
+// > 54 dk: sayfa acik kaldikca 54'er dakikalik parcalarla yenilenir; sayfa kapanirsa role en gec 54 dk icinde kendi kapanir.
+function sureliAc(i, sn){
+  const bitis = Date.now() + sn*1000;
+  if(!gonder(KOMUT.sureli(i, Math.min(sn, KART_MAX_SN)))) return;
+  sayaclar[i] = bitis; yenileme[i] = Date.now(); kaydetSayac();
+  bilgi("CH" + (i+1) + " " + Math.round(sn/60) + " dk açıldı");
+  setTimeout(() => gonder(KOMUT.oku()), 1200);
+}
+setInterval(() => {
+  const simdi = Date.now();
+  for(const k in sayaclar){
+    const i = +k, kalan = (sayaclar[k] - simdi)/1000;
+    if(kalan <= 0){ delete sayaclar[k]; delete yenileme[k]; kaydetSayac(); continue; }
+    // 54 dk'dan uzun surelerde: kartin sayaci bitmeden ~60 sn once yeni parca gonder
+    const son = yenileme[k] || simdi;
+    if(simdi - son >= (KART_MAX_SN - 60)*1000 && kalan > 5){
+      if(gonder(KOMUT.sureli(i, Math.min(kalan, KART_MAX_SN)))){ yenileme[k] = simdi; kaydetSayac(); log("CH" + (i+1) + " süresi yenilendi"); }
+    }
+  }
+  sayacCiz();
+  durumYaz();
+}, 1000);
+
+// ---------- MQTT ----------
+function baglan(){
+  if(istemci){ try { istemci.end(true); } catch(e){} }
+  bagli = false; durumYaz();
+  istemci = mqtt.connect(ayar.sunucu, {
+    clientId: "telefon-" + Math.random().toString(16).slice(2, 10),
+    reconnectPeriod: 3000, connectTimeout: 10000, keepalive: 30, clean: true
+  });
+  istemci.on("connect", () => {
+    bagli = true; durumYaz();
+    istemci.subscribe([konu("cevap"), konu("isimler")], {qos:0});
+    gonder(KOMUT.oku());
+  });
+  istemci.on("close", () => { bagli = false; durumYaz(); });
+  istemci.on("error", e => log("Hata: " + (e && e.message)));
+  istemci.on("message", (gelenKonu, msj) => {
+    if(gelenKonu === konu("isimler")){
+      try { const a = JSON.parse(new TextDecoder().decode(msj)); if(Array.isArray(a) && a.length === N){ isimler = a.map(String); depo.yaz("rk_isimler", isimler); ciz(); } } catch(e){}
+      return;
+    }
+    const b = new Uint8Array(msj);
+    sonCevap = Date.now();
+    log("← " + hx(b));
+    if(b.length >= 3 && b[1] === 1){
+      for(let i=0;i<N;i++) roleler[i] = !!((b[3 + (i>>3)] >> (i&7)) & 1);
+    } else if(b.length >= 6 && b[1] === 5){
+      if(b[2] === 0 && b[3] === 0xFF) roleler.fill(b[4] === 0xFF);
+      else if(b[2] === 0) roleler[b[3]] = b[4] === 0xFF;
+      else if(b[2] === 2) roleler[b[3]] = true;
+    } else if(b.length >= 3 && (b[1] & 0x80)) bilgi("Kart hata kodu döndü: " + b[2]);
+    ciz(); durumYaz();
+  });
+}
+// durumu duzenli tazele (baska cihazdan yapilan degisiklikler ve kartin kendi kapattiklari icin)
+setInterval(() => { if(bagli) gonder(KOMUT.oku()); }, 5000);
+document.addEventListener("visibilitychange", () => { if(!document.hidden && bagli) gonder(KOMUT.oku()); });
+
+ciz();
+if(!ayar.kod){
+  aSunucu.value = ayar.sunucu; aKod.value = "";
+  document.getElementById("ayarlar").classList.remove("gizli");
+  document.getElementById("kodUyari").classList.remove("gizli");
+  document.getElementById("durum").innerHTML = '<span class="nokta" style="background:#f39c12"></span>Gizli kod girilmedi';
+} else if(typeof mqtt === "undefined"){ document.getElementById("durum").textContent = "MQTT kütüphanesi yüklenemedi (internet bağlantısını kontrol edin)"; }
+else baglan();
+</script>
+</body>
+</html>
