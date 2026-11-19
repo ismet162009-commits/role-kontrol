@@ -74,7 +74,7 @@
 <script>
 // ===================== VARSAYILAN AYARLAR =====================
 const VARSAYILAN = {
-  sunucu: "wss://test.mosquitto.org:8081/mqtt",
+  sunucu: "wss://broker.hivemq.com:8884/mqtt",
   kod: ""          // gizli kod sayfada DURMAZ; her cihazda Ayarlar'dan bir kez girilir
 };
 const konu = k => ayar.kod + "/" + k;   // komut, cevap, isimler
@@ -92,7 +92,11 @@ let isimler = depo.al("rk_isimler", Array.from({length:N}, (_, i) => "Kanal " + 
 let roleler = Array(N).fill(false);
 let sayaclar = depo.al("rk_sayac", {});   // kanal -> bitis zamani (ms)
 let yenileme = depo.al("rk_yenileme", {}); // kanal -> karta son sureli komutun gonderildigi an
-function kaydetSayac(){ depo.yaz("rk_sayac", sayaclar); depo.yaz("rk_yenileme", yenileme); }
+function kaydetSayac(yayinla){
+  depo.yaz("rk_sayac", sayaclar); depo.yaz("rk_yenileme", yenileme);
+  // geri sayimlari tum cihazlarla paylas (sunucuda kalici mesaj)
+  if(yayinla !== false && istemci && bagli) istemci.publish(konu("sayaclar"), JSON.stringify(sayaclar), {qos:1, retain:true});
+}
 let istemci = null, bagli = false, sonCevap = 0;
 
 // ---------- Modbus ----------
@@ -233,11 +237,11 @@ setInterval(() => {
   const simdi = Date.now();
   for(const k in sayaclar){
     const i = +k, kalan = (sayaclar[k] - simdi)/1000;
-    if(kalan <= 0){ delete sayaclar[k]; delete yenileme[k]; kaydetSayac(); continue; }
+    if(kalan <= 0){ delete sayaclar[k]; delete yenileme[k]; kaydetSayac(false); continue; }
     // 54 dk'dan uzun surelerde: kartin sayaci bitmeden ~60 sn once yeni parca gonder
     const son = yenileme[k] || simdi;
     if(simdi - son >= (KART_MAX_SN - 60)*1000 && kalan > 5){
-      if(gonder(KOMUT.sureli(i, Math.min(kalan, KART_MAX_SN)))){ yenileme[k] = simdi; kaydetSayac(); log("CH" + (i+1) + " süresi yenilendi"); }
+      if(gonder(KOMUT.sureli(i, Math.min(kalan, KART_MAX_SN)))){ yenileme[k] = simdi; kaydetSayac(false); log("CH" + (i+1) + " süresi yenilendi"); }
     }
   }
   sayacCiz();
@@ -262,13 +266,24 @@ function baglan(){
   });
   istemci.on("connect", () => {
     bagli = true; durumYaz();
-    istemci.subscribe([konu("cevap"), konu("isimler")], {qos:0});
+    istemci.subscribe([konu("cevap"), konu("isimler"), konu("sayaclar")], {qos:0});
     gonder(KOMUT.oku(), true);
     kuyruguGonder();
   });
   istemci.on("close", () => { bagli = false; durumYaz(); });
   istemci.on("error", e => log("Hata: " + (e && e.message)));
   istemci.on("message", (gelenKonu, msj) => {
+    if(gelenKonu === konu("sayaclar")){
+      try {
+        const g = JSON.parse(new TextDecoder().decode(msj) || "{}");
+        const simdi = Date.now(), yeni = {};
+        for(const k in g){ const t = +g[k]; if(t > simdi && +k >= 0 && +k < N) yeni[k] = t; }
+        for(const k in yenileme) if(!(k in yeni)) delete yenileme[k];
+        for(const k in yeni) if(!(k in yenileme)) yenileme[k] = simdi;   // baska cihazdan geldiyse bu cihaz da yenileyebilsin
+        sayaclar = yeni; kaydetSayac(false); sayacCiz();
+      } catch(e){}
+      return;
+    }
     if(gelenKonu === konu("isimler")){
       try { const a = JSON.parse(new TextDecoder().decode(msj)); if(Array.isArray(a) && a.length === N){ isimler = a.map(String); depo.yaz("rk_isimler", isimler); ciz(); } } catch(e){}
       return;
