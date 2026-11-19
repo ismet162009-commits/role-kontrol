@@ -72,7 +72,16 @@
   #kurulum{position:fixed;inset:0;background:#0b0f14f2;z-index:20;display:none;align-items:center;justify-content:center;padding:20px}
   #kurulum.goster{display:flex}
   #kurulum .kutu{background:var(--kart);border-radius:14px;padding:18px;width:100%;max-width:360px}
-  #kurulum input{width:100%;padding:10px;border-radius:8px;border:1px solid var(--cizgi);background:#0f141a;color:var(--yazi);font-size:16px;margin:10px 0 12px}
+  #kurulum input{width:100%;padding:10px;border-radius:8px;border:1px solid var(--cizgi);background:#0f141a;color:var(--yazi);font-size:16px;margin:4px 0 8px}
+  #kurulum label{display:block;font-size:12px;color:var(--soluk);margin-top:6px}
+  .kul{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--cizgi);font-size:15px}
+  .av{width:32px;height:32px;border-radius:50%;background:#1f3a5a;color:#9cc7ff;display:flex;align-items:center;justify-content:center;font-weight:600;flex-shrink:0}
+  .rozet{font-size:11px;padding:3px 7px;border-radius:6px;background:#4a3510;color:var(--turuncu)}
+  .sil{background:none;font-size:18px;padding:4px 6px}
+  .btn2{display:block;width:100%;margin-top:10px;background:#26303c;border-radius:9px;padding:11px;font-size:14px;color:var(--yazi)}
+  .kutu2{margin-top:14px;color:var(--yazi)} .kutu2 summary{list-style:none;display:block;text-align:center}
+  .kutu2 summary::-webkit-details-marker{display:none}
+  .kutu2 input,.kutu2 select{width:100%;padding:9px;border-radius:8px;border:1px solid var(--cizgi);background:#0f141a;color:var(--yazi);font-size:15px;margin:4px 0 8px}
 
   #bilgi{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#000d;padding:10px 14px;border-radius:10px;font-size:13px;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90%;z-index:30}
 </style>
@@ -85,6 +94,7 @@
     <button class="akt" data-sekme="kontrol">Kontrol</button>
     <button data-sekme="gecmis">Geçmiş</button>
     <button data-sekme="isimler">İsimler</button>
+    <button data-sekme="kullanicilar">Kullanıcılar</button>
   </nav>
 </header>
 
@@ -99,9 +109,29 @@
 
 <section class="sayfa" id="isimler">
   <p class="not">İsmi yazın, kutudan çıkınca kaydedilir ve tüm telefonlarda görünür. "Göster" işaretini kaldırdığınız kanal Kontrol sayfasında çıkmaz.</p>
+  <p class="not" id="isimKilit" style="display:none;color:var(--turuncu)">İsimleri sadece yönetici değiştirebilir.</p>
   <div id="isimListe"></div>
-  <details>
-    <summary>Bağlantı</summary>
+</section>
+
+<section class="sayfa" id="kullanicilar">
+  <p class="not">Giriş yapan: <b id="benAd"></b></p>
+  <div id="kulListe"></div>
+  <div id="yoneticiAlani">
+    <details id="ekleKutu" class="kutu2">
+      <summary class="yesilBtn">+ Kullanıcı ekle</summary>
+      <div style="margin-top:10px">Kullanıcı adı</div>
+      <input id="yAd" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="20">
+      <div>Şifre</div>
+      <input id="ySifre" type="text" autocapitalize="off" autocorrect="off" spellcheck="false">
+      <div>Yetki</div>
+      <select id="yYetki"><option value="0">Kullanıcı (sadece aç/kapat)</option><option value="1">Yönetici (kullanıcı ve isim düzenler)</option></select>
+      <button class="yesilBtn" id="yKaydet" style="margin-top:10px">Kaydet</button>
+    </details>
+  </div>
+  <button class="btn2" id="sifreBtn">🔑 Şifremi değiştir</button>
+  <button class="btn2" id="cikisBtn">Bu telefondan çıkış yap</button>
+  <details id="baglantiKutu">
+    <summary>Bağlantı (yönetici)</summary>
     <div style="margin-top:8px">Kartın gizli kodu</div>
     <input id="aKod" type="password" autocapitalize="off" autocorrect="off" spellcheck="false">
     <div>Sunucu</div>
@@ -109,14 +139,18 @@
     <button class="yesilBtn" id="kaydetBtn">Kaydet ve bağlan</button>
     <div id="log"></div>
   </details>
-  <div class="surum">Sürüm 5 · 19.11.2026</div>
+  <div class="surum">Sürüm 6 · 19.11.2026</div>
 </section>
 
 <div id="kurulum"><div class="kutu">
-  <b>Kartın gizli kodunu girin</b>
-  <div class="not" style="margin-top:6px">Bu telefonda bir kere girmeniz yeterli.</div>
-  <input id="kKod" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="gizli kod">
-  <button class="yesilBtn" id="kBtn" style="width:100%">Bağlan</button>
+  <div style="text-align:center;font-size:34px">⚡</div>
+  <div style="text-align:center;font-weight:600;font-size:17px">Röle Kontrol</div>
+  <div class="not" style="text-align:center;margin-top:4px">Bu telefonda bir kere giriş yapın, bir daha sorulmaz.</div>
+  <div id="gKodSatir"><label>Kartın gizli kodu</label><input id="gKod" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+  <label>Kullanıcı adı</label><input id="gAd" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="username">
+  <label>Şifre</label><input id="gSifre" type="password" autocomplete="current-password">
+  <button class="yesilBtn" id="gBtn" style="width:100%">Giriş yap</button>
+  <div id="gMesaj" class="not" style="text-align:center;margin-top:10px;min-height:16px"></div>
 </div></div>
 <div id="bilgi"></div>
 
@@ -143,6 +177,20 @@ let roleler = Array(N).fill(false);
 let sayaclar = depo.al("rk_sayac", {});           // kanal -> bitis zamani (ms)
 let yenileme = depo.al("rk_yenileme", {});        // kanal -> karta son sureli komut ani
 let istemci = null, bagli = false, sonCevap = 0, baglanmaAni = 0, sonYeniden = 0;
+let oturum = depo.al("rk_oturum", null);            // {a: kullanici adi} -> bir kez giris yapilinca saklanir
+let kullanicilar = depo.al("rk_kullanicilar", []);  // [{a, t: tuz, h: sifre ozeti, y: 1 yonetici / 0 kullanici}]
+let kullaniciYuklendi = false;                       // sunucudan liste geldi mi (bu baglantida)
+
+// ---------- Kullanicilar ----------
+async function ozet(metin){
+  const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(metin));
+  return Array.from(new Uint8Array(b)).map(x => x.toString(16).padStart(2,"0")).join("");
+}
+const tuzUret = () => Array.from(crypto.getRandomValues(new Uint8Array(8))).map(x => x.toString(16).padStart(2,"0")).join("");
+const ben = () => oturum && kullanicilar.find(x => x.a === oturum.a);
+const yoneticiMi = () => !!(ben() && ben().y === 1);
+function kullanicilariKaydet(){ depo.yaz("rk_kullanicilar", kullanicilar); yayinla("kullanicilar", kullanicilar); kulCiz(); isimCiz(); }
+const bekle = (kosul, ms) => new Promise(ok => { const bas = Date.now(); const t = setInterval(() => { if(kosul()){ clearInterval(t); ok(true); } else if(Date.now() - bas > ms){ clearInterval(t); ok(false); } }, 100); });
 
 function yayinla(k, veri){ if(istemci && bagli) istemci.publish(konu(k), JSON.stringify(veri), {qos:1, retain:true}); }
 function kaydetSayac(paylas){
@@ -180,7 +228,7 @@ function durumYaz(){
 // ---------- Komut gonderme ----------
 let kuyruk = [], bekleyen = [];
 function gonder(b, sessiz){
-  if(!ayar.kod){ kurulumAc(); return false; }
+  if(!ayar.kod || !oturum){ girisAc(); return false; }
   if(kartYok() && !sessiz){ bilgi("Kart çevrimdışı, komut gönderilemedi"); return false; }
   if(!istemci || !bagli){
     if(!sessiz){ kuyruk.push(b); bilgi("Bağlanıyor, komut bağlanınca gönderilecek…"); }
@@ -206,7 +254,7 @@ setInterval(() => {               // 3 sn icinde onaylanmayan komutu bir kez dah
 
 // ---------- Gecmis ----------
 function olayEkle(ch, o, s){
-  gecmis.unshift({z: Date.now(), ch, o, s: s || 0});
+  gecmis.unshift({z: Date.now(), ch, o, s: s || 0, k: oturum ? oturum.a : ""});
   gecmis = gecmis.slice(0, GECMIS_MAX);
   depo.yaz("rk_gecmis", gecmis); yayinla("gecmis", gecmis); gecmisCiz();
 }
@@ -226,9 +274,9 @@ function gecmisCiz(){
     if(g !== sonGun){ el.insertAdjacentHTML("beforeend", '<div class="gun"></div>'); el.lastChild.textContent = g; sonGun = g; }
     const ad = x.ch < 0 ? "Hepsi" : (isimler[x.ch] || "Kanal " + (x.ch+1));
     const fiil = x.ch < 0 ? "kapatıldı" : x.o ? "açıldı" : "kapandı";
-    let alt = x.ch < 0 ? "" : "CH" + (x.ch+1);
-    if(x.o && x.s){ const bit = x.z + x.s*1000; alt += " · " + sureYazi(x.s) + " · " + ss(bit) + (bit > Date.now() ? "'de kapanacak" : "'de kapandı"); }
-    else if(x.o) alt += " · süresiz";
+    let alt = [x.k, x.ch < 0 ? "" : "CH" + (x.ch+1)].filter(Boolean).join(" · ");
+    if(x.o && x.s){ const bit = x.z + x.s*1000; alt += (alt ? " · " : "") + sureYazi(x.s) + " · " + ss(bit) + (bit > Date.now() ? "'de kapanacak" : "'de kapandı"); }
+    else if(x.o) alt += (alt ? " · " : "") + "süresiz";
     const d = document.createElement("div"); d.className = "olay";
     d.innerHTML = '<div class="zaman"></div><div><div><b></b> <span></span></div><div class="alt"></div></div>';
     d.querySelector(".zaman").textContent = ss(x.z);
@@ -318,15 +366,19 @@ for(let i=0;i<N;i++){
     <label><input type="checkbox" data-g="${i}"> Göster</label></div>`);
 }
 function isimCiz(){
+  const yon = yoneticiMi();
+  $("isimKilit").style.display = yon ? "none" : "";
   for(let i=0;i<N;i++){
     const r = $("i"+i), inp = r.querySelector("input[type=text]");
     if(document.activeElement !== inp) inp.value = isimler[i];
     r.querySelector("input[type=checkbox]").checked = !gizli.includes(i);
     r.classList.toggle("gizlendi", gizli.includes(i));
+    r.querySelectorAll("input").forEach(x => x.disabled = !yon);
   }
 }
 isimListe.addEventListener("change", e => {
   const t = e.target;
+  if(!yoneticiMi()){ isimCiz(); return; }
   if(t.dataset.i !== undefined){
     const i = +t.dataset.i, v = t.value.trim().slice(0,30) || "Kanal " + (i+1);
     t.value = v; if(v === isimler[i]) return;
@@ -345,7 +397,8 @@ document.querySelector("nav").addEventListener("click", e => {
   document.querySelectorAll("nav button").forEach(x => x.classList.toggle("akt", x === b));
   document.querySelectorAll(".sayfa").forEach(x => x.classList.toggle("akt", x.id === b.dataset.sekme));
   if(b.dataset.sekme === "gecmis") gecmisCiz();
-  if(b.dataset.sekme === "isimler"){ isimCiz(); $("aKod").value = ayar.kod; $("aSunucu").value = ayar.sunucu; }
+  if(b.dataset.sekme === "isimler") isimCiz();
+  if(b.dataset.sekme === "kullanicilar"){ kulCiz(); $("aKod").value = ayar.kod; $("aSunucu").value = ayar.sunucu; }
   window.scrollTo(0, 0);
 });
 function saatYaz(){
@@ -356,15 +409,80 @@ function bilgi(t){ const b = $("bilgi"); b.textContent = t; b.style.opacity = 1;
 function log(t){ $("log").textContent = new Date().toLocaleTimeString("tr-TR") + "  " + t; }
 
 // ---------- Gizli kod / baglanti ayarlari ----------
-function kurulumAc(){ $("kKod").value = ""; $("kurulum").classList.add("goster"); }
-$("kBtn").onclick = () => {
-  const k = $("kKod").value.trim(); if(!k) return;
-  ayar.kod = k; depo.yaz("rk_ayar", ayar); $("kurulum").classList.remove("goster"); baglan();
+function girisAc(m){
+  $("gKodSatir").style.display = ayar.kod ? "none" : "";
+  $("gSifre").value = ""; $("gMesaj").textContent = m || "";
+  $("kurulum").classList.add("goster");
+}
+async function girisYap(){
+  const m = t => $("gMesaj").textContent = t;
+  const kod = ayar.kod || $("gKod").value.trim(), ad = $("gAd").value.trim().toLowerCase(), sf = $("gSifre").value;
+  if(!kod || !ad || !sf) return m("Lütfen tüm alanları doldurun");
+  if(kod !== ayar.kod){ ayar.kod = kod; depo.yaz("rk_ayar", ayar); kullanicilar = []; kullaniciYuklendi = false; baglan(); }
+  else if(!bagli) yenidenBaglan();
+  m("Kontrol ediliyor…");
+  if(!await bekle(() => kullaniciYuklendi, 12000)) return m("Sunucuya ulaşılamadı, tekrar deneyin");
+  if(!kullanicilar.length){
+    if(!window.confirm("Henüz hiç kullanıcı yok.\n\"" + ad + "\" YÖNETİCİ olarak oluşturulsun mu?")) return m("");
+    const t = tuzUret();
+    kullanicilar = [{a: ad, t, h: await ozet(t + sf), y: 1}];
+  } else {
+    const u = kullanicilar.find(x => x.a === ad);
+    if(!u || await ozet(u.t + sf) !== u.h) return m("Kullanıcı adı veya şifre yanlış");
+  }
+  oturum = {a: ad}; depo.yaz("rk_oturum", oturum);
+  kullanicilariKaydet();
+  $("kurulum").classList.remove("goster"); bilgi("Hoş geldiniz, " + ad);
+}
+$("gBtn").onclick = girisYap;
+$("gSifre").addEventListener("keydown", e => { if(e.key === "Enter") girisYap(); });
+function cikis(m){ oturum = null; depo.yaz("rk_oturum", null); girisAc(m); }
+
+// ---------- Ekran: Kullanicilar ----------
+function kulCiz(){
+  $("benAd").textContent = oturum ? oturum.a : "-";
+  const yon = yoneticiMi(), el = $("kulListe"); el.textContent = "";
+  for(const u of kullanicilar){
+    const d = document.createElement("div"); d.className = "kul";
+    d.innerHTML = '<div class="av"></div><div style="flex:1"></div>';
+    d.querySelector(".av").textContent = u.a.charAt(0).toLocaleUpperCase("tr-TR");
+    d.children[1].textContent = u.a + (oturum && u.a === oturum.a ? " (siz)" : "");
+    if(u.y === 1) d.insertAdjacentHTML("beforeend", '<span class="rozet">yönetici</span>');
+    if(yon && !(oturum && u.a === oturum.a)){
+      const b = document.createElement("button"); b.className = "sil"; b.textContent = "🗑"; b.dataset.sil = u.a; b.setAttribute("aria-label", u.a + " sil");
+      d.appendChild(b);
+    }
+    el.appendChild(d);
+  }
+  $("yoneticiAlani").style.display = yon ? "" : "none";
+  $("baglantiKutu").style.display = yon ? "" : "none";
+}
+$("kulListe").addEventListener("click", e => {
+  const b = e.target.closest("[data-sil]"); if(!b || !yoneticiMi()) return;
+  if(!window.confirm(b.dataset.sil + " silinsin mi? Bu kişinin telefonu çıkış yapar.")) return;
+  kullanicilar = kullanicilar.filter(x => x.a !== b.dataset.sil); kullanicilariKaydet(); bilgi("Silindi");
+});
+$("yKaydet").onclick = async () => {
+  if(!yoneticiMi()) return;
+  const ad = $("yAd").value.trim().toLowerCase(), sf = $("ySifre").value, y = +$("yYetki").value;
+  if(!ad || !sf) return bilgi("Kullanıcı adı ve şifre yazın");
+  if(sf.length < 4) return bilgi("Şifre en az 4 karakter olsun");
+  if(kullanicilar.some(x => x.a === ad)) return bilgi("Bu kullanıcı adı zaten var");
+  const t = tuzUret(); kullanicilar.push({a: ad, t, h: await ozet(t + sf), y});
+  kullanicilariKaydet(); $("yAd").value = ""; $("ySifre").value = ""; $("ekleKutu").open = false; bilgi(ad + " eklendi");
 };
+$("sifreBtn").onclick = async () => {
+  const u = ben(); if(!u) return;
+  const y1 = window.prompt("Yeni şifre:"); if(!y1) return;
+  if(y1.length < 4) return bilgi("Şifre en az 4 karakter olsun");
+  if(window.prompt("Yeni şifreyi tekrar yazın:") !== y1) return bilgi("Şifreler aynı değil");
+  u.t = tuzUret(); u.h = await ozet(u.t + y1); kullanicilariKaydet(); bilgi("Şifre değişti");
+};
+$("cikisBtn").onclick = () => { if(window.confirm("Bu telefondan çıkış yapılsın mı?")) cikis(); };
 $("kaydetBtn").onclick = () => {
   ayar = { sunucu: $("aSunucu").value.trim() || VARSAYILAN.sunucu, kod: $("aKod").value.trim() };
   depo.yaz("rk_ayar", ayar);
-  if(!ayar.kod) kurulumAc(); else { bilgi("Bağlanılıyor…"); baglan(); }
+  if(!ayar.kod) cikis(); else { bilgi("Bağlanılıyor…"); kullaniciYuklendi = false; baglan(); }
 };
 
 // ---------- MQTT ----------
@@ -384,7 +502,10 @@ function baglan(){
   });
   istemci.on("connect", () => {
     bagli = true; baglanmaAni = Date.now(); durumYaz();
-    istemci.subscribe(["cevap","isimler","sayaclar","gecmis","gizli"].map(konu), {qos:0});
+    istemci.subscribe(["cevap","isimler","sayaclar","gecmis","gizli","kullanicilar"].map(konu), {qos:0}, () => {
+      // kayitli liste hic yoksa sunucu bir sey gondermez: kisa bekleyip "liste bos" kabul et
+      setTimeout(() => { if(!kullaniciYuklendi && bagli){ kullanicilar = []; kullaniciYuklendi = true; } }, 2500);
+    });
     gonder(KOMUT.oku(), true);
     kuyruguGonder();
   });
@@ -393,6 +514,12 @@ function baglan(){
   istemci.on("message", (k, msj) => {
     if(k !== konu("cevap")){
       let v; try { v = JSON.parse(new TextDecoder().decode(msj) || "null"); } catch(e){ return; }
+      if(k === konu("kullanicilar")){
+        kullanicilar = Array.isArray(v) ? v.filter(x => x && x.a && x.h) : []; kullaniciYuklendi = true;
+        depo.yaz("rk_kullanicilar", kullanicilar);
+        if(oturum && kullanicilar.length && !ben()) cikis("Bu hesap silinmiş. Tekrar giriş yapın.");
+        kulCiz(); isimCiz(); return;
+      }
       if(k === konu("sayaclar") && v && typeof v === "object"){
         const simdi = Date.now(), yeni = {};
         for(const x in v){ const t = +v[x]; if(t > simdi && +x >= 0 && +x < N) yeni[x] = t; }
@@ -429,8 +556,9 @@ window.addEventListener("pageshow", e => { if(e.persisted && ayar.kod) yenidenBa
 window.addEventListener("online", () => { if(ayar.kod) yenidenBaglan(); });
 window.addEventListener("offline", durumYaz);
 
-saatYaz(); ciz(); isimCiz(); gecmisCiz();
-if(!ayar.kod){ kurulumAc(); durumYaz(); } else baglan();
+saatYaz(); ciz(); isimCiz(); gecmisCiz(); kulCiz();
+if(!ayar.kod || !oturum) girisAc();
+if(ayar.kod) baglan(); else durumYaz();
 </script>
 </body>
 </html>
