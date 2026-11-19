@@ -5,103 +5,154 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Röle Kontrol">
-<meta name="theme-color" content="#10141a">
+<meta name="theme-color" content="#0b0f14">
 <title>Röle Kontrol</title>
 <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAADVklEQVR42u3dMW7cMBAFUJpgFyAwEle+T66QQ+YKOVNSBEifPjAMY0WKM8P3axde6e2fgVa7enp+eW0ib6U7BAKHwCFwCBwCh8AhcAgcAofAIQKHwCFwCBwCh8AhOTIC/k+fPn8582T8/fMbDho+dBy2WxlMxLeyS8nAIouS+4kMLBDZjwOLdEQ6GQVW18Q4yEh6VAcWRsyG5iAje4V0Mvi4FQcZNXwMMj6erz++vf8Hv77/3Otj7v7RyZglo15/+Mh+WvbWRvSdQ20UK49ORiUZc89FJ6PkTJlyRuwc1Woj1s5hoMRcRa+fF80hy3CojcKbqea4KqPe5Y05OKrWRqUl9Mo50hwCx5raKDxTLuEoOVNKXtV4+ExpDoFjQW3UnilwuEwOR3P3xo04im2j5WvjsfOlOQwUOMwUONQGHGTAYabAoTbgIAOO0jLOmSl2DoFDbcBh1YBD4AhWG6fNlINwGChwCBy318aBM+UIHAYKHALHjto4c6YUx2GgwNHcvQGH2oCDDDjMlPh5en55bbW+1JSuNu4h+MDPoncDRTkdgcOqAYedBg4DBQ4y4BA7h9oodPmkk0GGsULGYThc2IDDQIHDQIHjwNpI+uluJ0OMFbVxAA4DBQ4y4LBqwGHVgENtlLozuZMhxoraqIjDQIGDDDgEDrXRfB2yuQU1iQxfhyTDziFwWDXgIAMOv4YOh8BhoHiWvZniidRCBhwCh9qA4+aFw9MhReBQG3CQAcfChcPDeETgMFDgmDJTDn+khuYgAw6BQ23AsXbhIENzkAGHwDFlpqgNzUEGHGTAIXAsXDjUxkwcD3yf30BpqX5/wViR43G8M1MMFM1BBhxkBMFRaSe1jR7aHG8uHGoDDgNlH46Mk+U0GVfOkescsgxH8PL4b+FQG5rDQAmzkKbYPA6Ucf28dLcTy1ocwctDbWxujrA+yAgxVgL6IMPOYeHIcPk8VHmojbblSU3tmOc4HStj1VjxaX4BGQt3Dj6yy1i7kPKRWkZrbdzwf1tBkr79eoHXQEbuO8H4yHg8x82vx4hJ9DYbW14bIinad2x8nYgEH8ojwmumJOaiNgIehWOtRFvbh2MkbjAWOAQOgUPgEDgEDoFD4BA4ROAQOAQOgUPgEDgkR/4BhCVydmnYrEAAAAAASUVORK5CYII=">
 <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAADVklEQVR42u3dMW7cMBAFUJpgFyAwEle+T66QQ+YKOVNSBEifPjAMY0WKM8P3axde6e2fgVa7enp+eW0ib6U7BAKHwCFwCBwCh8AhcAgcAofAIQKHwCFwCBwCh8AhOTIC/k+fPn8582T8/fMbDho+dBy2WxlMxLeyS8nAIouS+4kMLBDZjwOLdEQ6GQVW18Q4yEh6VAcWRsyG5iAje4V0Mvi4FQcZNXwMMj6erz++vf8Hv77/3Otj7v7RyZglo15/+Mh+WvbWRvSdQ20UK49ORiUZc89FJ6PkTJlyRuwc1Woj1s5hoMRcRa+fF80hy3CojcKbqea4KqPe5Y05OKrWRqUl9Mo50hwCx5raKDxTLuEoOVNKXtV4+ExpDoFjQW3UnilwuEwOR3P3xo04im2j5WvjsfOlOQwUOMwUONQGHGTAYabAoTbgIAOO0jLOmSl2DoFDbcBh1YBD4AhWG6fNlINwGChwCBy318aBM+UIHAYKHALHjto4c6YUx2GgwNHcvQGH2oCDDDjMlPh5en55bbW+1JSuNu4h+MDPoncDRTkdgcOqAYedBg4DBQ4y4BA7h9oodPmkk0GGsULGYThc2IDDQIHDQIHjwNpI+uluJ0OMFbVxAA4DBQ4y4LBqwGHVgENtlLozuZMhxoraqIjDQIGDDDgEDrXRfB2yuQU1iQxfhyTDziFwWDXgIAMOv4YOh8BhoHiWvZniidRCBhwCh9qA4+aFw9MhReBQG3CQAcfChcPDeETgMFDgmDJTDn+khuYgAw6BQ23AsXbhIENzkAGHwDFlpqgNzUEGHGTAIXAsXDjUxkwcD3yf30BpqX5/wViR43G8M1MMFM1BBhxkBMFRaSe1jR7aHG8uHGoDDgNlH46Mk+U0GVfOkescsgxH8PL4b+FQG5rDQAmzkKbYPA6Ucf28dLcTy1ocwctDbWxujrA+yAgxVgL6IMPOYeHIcPk8VHmojbblSU3tmOc4HStj1VjxaX4BGQt3Dj6yy1i7kPKRWkZrbdzwf1tBkr79eoHXQEbuO8H4yHg8x82vx4hJ9DYbW14bIinad2x8nYgEH8ojwmumJOaiNgIehWOtRFvbh2MkbjAWOAQOgUPgEDgEDoFD4BA4ROAQOAQOgUPgEDgkR/4BhCVydmnYrEAAAAAASUVORK5CYII=">
 <style>
-  :root{--bg:#10141a;--kart:#1b222c;--yazi:#e8edf3;--soluk:#8a96a6;--acik:#2ecc71;--kapali:#3a4452;--uyari:#f39c12;--kirmizi:#e74c3c}
+  :root{--bg:#10141a;--kart:#1b222c;--cizgi:#262f3b;--yazi:#e8edf3;--soluk:#8a96a6;--yesil:#2ecc71;--turuncu:#f39c12;--kirmizi:#e74c3c}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  body{margin:0;font-family:-apple-system,system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--yazi);padding-bottom:env(safe-area-inset-bottom)}
-  header{position:sticky;top:0;z-index:5;background:#0b0f14;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;display:flex;gap:10px;align-items:center;justify-content:space-between;border-bottom:1px solid #222b36}
-  h1{font-size:17px;margin:0}
-  .durum{font-size:12px;color:var(--soluk);margin-top:2px}
-  .nokta{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle;background:#888}
-  button{border:0;border-radius:9px;padding:8px 12px;font-size:14px;cursor:pointer;color:#fff;background:#2d3846;font-family:inherit}
+  body{margin:0;font-family:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--yazi);padding-bottom:env(safe-area-inset-bottom)}
+  button{font-family:inherit;cursor:pointer;border:0;color:inherit}
   button:active{transform:scale(.97)}
-  .kirmizi{background:var(--kirmizi)}
-  main{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;padding:12px}
-  .kanal{background:var(--kart);border-radius:12px;padding:10px;border:2px solid transparent}
-  .kanal.on{border-color:var(--acik)}
-  .ust{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:6px}
-  .ad{font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer}
-  .no{font-size:11px;color:var(--soluk);flex-shrink:0}
-  .anahtar{width:100%;padding:12px;font-size:15px;font-weight:700;background:var(--kapali)}
-  .on .anahtar{background:var(--acik);color:#06210f}
-  .sure{display:flex;gap:6px;margin-top:8px}
-  .sure select{flex:1;padding:7px;border-radius:8px;border:1px solid #2d3846;background:#0f141a;color:var(--yazi);font-size:13px}
-  .sure button{padding:7px 10px;font-size:13px;background:#34495e}
-  .geri{font-size:12px;color:var(--uyari);margin-top:6px;min-height:15px}
-  .panel{margin:12px;padding:12px;background:var(--kart);border-radius:12px;font-size:13px}
-  .panel label{display:block;color:var(--soluk);margin:8px 0 3px}
-  .panel input{width:100%;padding:8px;border-radius:8px;border:1px solid #2d3846;background:#0f141a;color:var(--yazi);font-size:14px}
-  .gizli{display:none}
-  #bilgi{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#000c;padding:10px 14px;border-radius:10px;font-size:13px;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90%}
-  footer{padding:4px 14px 20px;color:var(--soluk);font-size:11px;font-family:Consolas,monospace;word-break:break-all}
+
+  header{position:sticky;top:0;z-index:5;background:#0b0f14;padding:calc(10px + env(safe-area-inset-top)) 14px 0;border-bottom:1px solid var(--cizgi)}
+  .satir{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  h1{font-size:17px;margin:0}
+  #saat{font-size:13px;color:var(--soluk)}
+  #durum{font-size:12px;margin:4px 0 8px;color:var(--soluk)}
+  .nokta{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:middle;background:#888}
+  nav{display:flex}
+  nav button{flex:1;background:none;padding:10px 0;font-size:14px;color:var(--soluk);border-bottom:2px solid transparent}
+  nav button.akt{color:var(--yazi);border-bottom-color:var(--yesil);font-weight:600}
+
+  .sayfa{display:none;padding:12px;max-width:900px;margin:0 auto}
+  .sayfa.akt{display:block}
+
+  /* Kontrol */
+  .ozet{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:14px;color:var(--soluk)}
+  .kirmizi{background:var(--kirmizi);color:#fff;border-radius:9px;padding:8px 12px;font-size:14px}
+  #liste{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+  #liste.pasif{opacity:.45}
+  .kanal{background:var(--kart);border-radius:12px;padding:12px;border:2px solid transparent}
+  .kanal.on{border-color:var(--yesil)}
+  .ust{display:flex;align-items:center;gap:8px}
+  .ad{flex:1;font-weight:600;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .kalan{font-size:12px;color:var(--turuncu);white-space:nowrap}
+  .anahtar{width:52px;height:30px;border-radius:15px;background:#3a4452;position:relative;flex-shrink:0;transition:background .2s}
+  .anahtar::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left .2s}
+  .on .anahtar{background:var(--yesil)}
+  .on .anahtar::after{left:25px}
+  .hizli{display:flex;gap:6px;margin-top:10px}
+  .hizli button{flex:1;background:#26303c;border-radius:8px;padding:8px 0;font-size:13px;color:var(--soluk)}
+
+  /* Gecmis */
+  .gun{font-size:12px;color:var(--soluk);margin:14px 0 4px}
+  .gun:first-child{margin-top:0}
+  .olay{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--cizgi);font-size:14px}
+  .olay .zaman{color:var(--soluk);width:44px;flex-shrink:0}
+  .olay .alt{font-size:12px;color:var(--soluk);margin-top:2px}
+  .ac{color:var(--yesil)} .kp{color:var(--soluk)} .hk{color:var(--kirmizi)}
+  .bos{color:var(--soluk);text-align:center;padding:30px 0;font-size:14px}
+
+  /* Isimler */
+  .isim{display:flex;align-items:center;gap:8px;padding:6px 0}
+  .isim .no{width:38px;font-size:12px;color:var(--soluk)}
+  .isim input[type=text]{flex:1;padding:9px;border-radius:8px;border:1px solid var(--cizgi);background:#0f141a;color:var(--yazi);font-size:15px}
+  .isim label{font-size:12px;color:var(--soluk);display:flex;align-items:center;gap:4px;white-space:nowrap}
+  .isim.gizlendi input[type=text]{opacity:.45}
+  .not{font-size:12px;color:var(--soluk);margin:0 0 8px}
+  details{margin-top:24px;font-size:13px;color:var(--soluk)}
+  details input{width:100%;padding:8px;border-radius:8px;border:1px solid var(--cizgi);background:#0f141a;color:var(--yazi);font-size:14px;margin:4px 0 8px}
+  .yesilBtn{background:#2e7d4f;color:#fff;border-radius:9px;padding:10px 14px;font-size:14px}
+  #log{font-family:Consolas,monospace;font-size:11px;word-break:break-all;margin-top:8px}
+  .surum{text-align:center;font-size:11px;color:var(--soluk);opacity:.6;margin:20px 0 10px}
+
+  /* Ilk kurulum */
+  #kurulum{position:fixed;inset:0;background:#0b0f14f2;z-index:20;display:none;align-items:center;justify-content:center;padding:20px}
+  #kurulum.goster{display:flex}
+  #kurulum .kutu{background:var(--kart);border-radius:14px;padding:18px;width:100%;max-width:360px}
+  #kurulum input{width:100%;padding:10px;border-radius:8px;border:1px solid var(--cizgi);background:#0f141a;color:var(--yazi);font-size:16px;margin:10px 0 12px}
+
+  #bilgi{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#000d;padding:10px 14px;border-radius:10px;font-size:13px;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90%;z-index:30}
 </style>
 </head>
 <body>
 <header>
-  <div>
-    <h1>⚡ Röle Kontrol</h1>
-    <div class="durum" id="durum"><span class="nokta"></span>Bağlanıyor…</div>
-  </div>
-  <div style="display:flex;gap:6px">
-    <button id="ayarBtn" title="Ayarlar">⚙︎</button>
-    <button class="kirmizi" id="hepsiBtn">Hepsini kapat</button>
-  </div>
+  <div class="satir"><h1>⚡ Röle Kontrol</h1><span id="saat"></span></div>
+  <div id="durum"><span class="nokta"></span>Bağlanıyor…</div>
+  <nav>
+    <button class="akt" data-sekme="kontrol">Kontrol</button>
+    <button data-sekme="gecmis">Geçmiş</button>
+    <button data-sekme="isimler">İsimler</button>
+  </nav>
 </header>
 
-<div class="panel gizli" id="ayarlar">
-  <b>Bağlantı ayarları</b>
-  <label>MQTT sunucusu (WebSocket)</label>
-  <input id="aSunucu">
-  <label>Kartın gizli kodu</label>
-  <input id="aKod" placeholder="örnek: rk30-abc123" autocapitalize="off" autocorrect="off" spellcheck="false">
-  <p id="kodUyari" style="color:var(--uyari);margin:8px 0 0" class="gizli">Kontrol için önce kartın gizli kodunu girin.</p>
-  <div style="display:flex;gap:8px;margin-top:10px">
-    <button id="kaydetBtn" style="background:#2e7d4f">Kaydet ve bağlan</button>
-    <button id="kapatAyar">Kapat</button>
-  </div>
-  <p style="color:var(--soluk);margin:10px 0 0">Kanal isimlerini değiştirmek için kanalın adına dokunun.</p>
-</div>
+<section class="sayfa akt" id="kontrol">
+  <div class="ozet"><span id="ozet">—</span><button class="kirmizi" id="hepsiBtn">Hepsini kapat</button></div>
+  <div id="liste"></div>
+</section>
 
-<main id="izgara"></main>
-<footer><span id="log"></span><div style="margin-top:6px;opacity:.6">Sürüm 4 · 19.11.2026</div></footer>
+<section class="sayfa" id="gecmis">
+  <div id="gecmisListe"></div>
+</section>
+
+<section class="sayfa" id="isimler">
+  <p class="not">İsmi yazın, kutudan çıkınca kaydedilir ve tüm telefonlarda görünür. "Göster" işaretini kaldırdığınız kanal Kontrol sayfasında çıkmaz.</p>
+  <div id="isimListe"></div>
+  <details>
+    <summary>Bağlantı</summary>
+    <div style="margin-top:8px">Kartın gizli kodu</div>
+    <input id="aKod" type="password" autocapitalize="off" autocorrect="off" spellcheck="false">
+    <div>Sunucu</div>
+    <input id="aSunucu" autocapitalize="off" autocorrect="off" spellcheck="false">
+    <button class="yesilBtn" id="kaydetBtn">Kaydet ve bağlan</button>
+    <div id="log"></div>
+  </details>
+  <div class="surum">Sürüm 5 · 19.11.2026</div>
+</section>
+
+<div id="kurulum"><div class="kutu">
+  <b>Kartın gizli kodunu girin</b>
+  <div class="not" style="margin-top:6px">Bu telefonda bir kere girmeniz yeterli.</div>
+  <input id="kKod" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="gizli kod">
+  <button class="yesilBtn" id="kBtn" style="width:100%">Bağlan</button>
+</div></div>
 <div id="bilgi"></div>
 
 <script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script>
 <script>
 // ===================== VARSAYILAN AYARLAR =====================
-const VARSAYILAN = {
-  sunucu: "wss://broker.hivemq.com:8884/mqtt",
-  kod: ""          // gizli kod sayfada DURMAZ; her cihazda Ayarlar'dan bir kez girilir
-};
-const konu = k => ayar.kod + "/" + k;   // komut, cevap, isimler
+const VARSAYILAN = { sunucu: "wss://broker.hivemq.com:8884/mqtt", kod: "" };  // gizli kod sayfada DURMAZ
 const N = 30;
-const KART_MAX_SN = 3270;      // kartin kendi zamanlayicisi ~54 dk
+const KART_MAX_SN = 3270;                         // kartin kendi zamanlayicisi ~54 dk
+const HIZLI = [[900,"15 dk"],[1800,"30 dk"],[3600,"1 sa"],[7200,"2 sa"]];
+const GECMIS_MAX = 200;
 // ==============================================================
-
+const $ = id => document.getElementById(id);
 const depo = {
   al(k, v){ try { const x = localStorage.getItem(k); return x === null ? v : JSON.parse(x); } catch(e){ return v; } },
   yaz(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
 };
 let ayar = Object.assign({}, VARSAYILAN, depo.al("rk_ayar", {}));
-delete ayar.komut; delete ayar.cevap;
+const konu = k => ayar.kod + "/" + k;
 let isimler = depo.al("rk_isimler", Array.from({length:N}, (_, i) => "Kanal " + (i+1)));
+let gizli = depo.al("rk_gizli", []);              // ana sayfada gosterilmeyen kanallar
+let gecmis = depo.al("rk_gecmis", []);            // [{z, ch, o, s}]  ch=-1: hepsi
 let roleler = Array(N).fill(false);
-let sayaclar = depo.al("rk_sayac", {});   // kanal -> bitis zamani (ms)
-let yenileme = depo.al("rk_yenileme", {}); // kanal -> karta son sureli komutun gonderildigi an
-function kaydetSayac(yayinla){
+let sayaclar = depo.al("rk_sayac", {});           // kanal -> bitis zamani (ms)
+let yenileme = depo.al("rk_yenileme", {});        // kanal -> karta son sureli komut ani
+let istemci = null, bagli = false, sonCevap = 0, baglanmaAni = 0, sonYeniden = 0;
+
+function yayinla(k, veri){ if(istemci && bagli) istemci.publish(konu(k), JSON.stringify(veri), {qos:1, retain:true}); }
+function kaydetSayac(paylas){
   depo.yaz("rk_sayac", sayaclar); depo.yaz("rk_yenileme", yenileme);
-  // geri sayimlari tum cihazlarla paylas (sunucuda kalici mesaj)
-  if(yayinla !== false && istemci && bagli) istemci.publish(konu("sayaclar"), JSON.stringify(sayaclar), {qos:1, retain:true});
+  if(paylas !== false) yayinla("sayaclar", sayaclar);
 }
-let istemci = null, bagli = false, sonCevap = 0;
 
 // ---------- Modbus ----------
 function crc16(b){ let c=0xFFFF; for(const x of b){ c^=x; for(let i=0;i<8;i++) c = (c&1) ? (c>>1)^0xA001 : c>>1; } return [c&0xFF, c>>8]; }
-function cerceve(arr){ return new Uint8Array([...arr, ...crc16(arr)]); }
+const cerceve = a => new Uint8Array([...a, ...crc16(a)]);
 const hx = b => Array.from(b).map(x => x.toString(16).padStart(2,"0").toUpperCase()).join(" ");
 const KOMUT = {
   ac:     ch => cerceve([1,5,0,ch,0xFF,0]),
@@ -111,14 +162,30 @@ const KOMUT = {
   sureli: (ch, sn) => { const d = Math.max(1, Math.min(0x7FFF, Math.round(sn*10))); return cerceve([1,5,2,ch,d>>8,d&0xFF]); }
 };
 
-let kuyruk = [];          // baglanti yokken basilan komutlar
-let bekleyen = [];        // onay bekleyen komutlar: {b, zaman}
+// ---------- Baglanti durumu ----------
+function kartYok(){ return bagli && Date.now() - baglanmaAni > 10000 && Date.now() - sonCevap > 12000; }
+function durumYaz(){
+  const d = $("durum"); let renk, yazi, pasif = false;
+  if(!ayar.kod){ renk = "#f39c12"; yazi = "Gizli kod girilmedi"; pasif = true; }
+  else if(!navigator.onLine){ renk = "#e74c3c"; yazi = "Bu cihazda internet yok"; pasif = true; }
+  else if(!bagli){ renk = Date.now() - sonYeniden < 8000 ? "#f39c12" : "#e74c3c";
+                   yazi = Date.now() - sonYeniden < 8000 ? "Bağlanıyor…" : "Sunucuya ulaşılamıyor, deneniyor…"; pasif = Date.now() - sonYeniden >= 8000; }
+  else if(kartYok()){ renk = "#e74c3c"; yazi = "Kart çevrimdışı (evde elektrik veya internet yok olabilir)"; pasif = true; }
+  else if(sonCevap < baglanmaAni){ renk = "#f39c12"; yazi = "Kart bekleniyor…"; }
+  else { renk = "#2ecc71"; yazi = "Kart bağlı"; }
+  d.innerHTML = '<span class="nokta" style="background:' + renk + '"></span>' + yazi;
+  $("liste").classList.toggle("pasif", pasif);
+}
+
+// ---------- Komut gonderme ----------
+let kuyruk = [], bekleyen = [];
 function gonder(b, sessiz){
-  if(!ayar.kod){ bilgi("Önce gizli kodu girin"); return false; }
+  if(!ayar.kod){ kurulumAc(); return false; }
+  if(kartYok() && !sessiz){ bilgi("Kart çevrimdışı, komut gönderilemedi"); return false; }
   if(!istemci || !bagli){
     if(!sessiz){ kuyruk.push(b); bilgi("Bağlanıyor, komut bağlanınca gönderilecek…"); }
     yenidenBaglan();
-    return true;
+    return !sessiz;
   }
   istemci.publish(konu("komut"), b, {qos:0});
   if(b[1] === 5) bekleyen.push({b: Array.from(b).join(","), ham: b, zaman: Date.now(), deneme: (b._deneme || 0)});
@@ -126,111 +193,107 @@ function gonder(b, sessiz){
   return true;
 }
 function kuyruguGonder(){ const k = kuyruk; kuyruk = []; k.forEach(b => gonder(b)); }
-// 3 sn icinde onay gelmeyen komut icin uyari + baglantiyi tazele
-setInterval(() => {
+setInterval(() => {               // 3 sn icinde onaylanmayan komutu bir kez daha dene
   const simdi = Date.now();
   const geciken = bekleyen.filter(x => simdi - x.zaman > 3000);
-  if(geciken.length){
-    bekleyen = bekleyen.filter(x => simdi - x.zaman <= 3000);
-    const tekrar = geciken.filter(x => x.deneme < 1);
-    tekrar.forEach(x => { x.ham._deneme = x.deneme + 1; kuyruk.push(x.ham); });
-    bilgi(tekrar.length ? "Komut ulaşmadı, yeniden bağlanıp tekrar gönderiliyor…" : "Kart cevap vermiyor. İnterneti ve kartı kontrol edin.");
-    sonYeniden = 0; yenidenBaglan();
-  }
+  if(!geciken.length) return;
+  bekleyen = bekleyen.filter(x => simdi - x.zaman <= 3000);
+  const tekrar = geciken.filter(x => x.deneme < 1);
+  tekrar.forEach(x => { x.ham._deneme = x.deneme + 1; kuyruk.push(x.ham); });
+  bilgi(tekrar.length ? "Komut ulaşmadı, tekrar gönderiliyor…" : "Kart cevap vermiyor");
+  sonYeniden = 0; yenidenBaglan();
 }, 1000);
 
-// ---------- Ekran ----------
-const izgara = document.getElementById("izgara");
+// ---------- Gecmis ----------
+function olayEkle(ch, o, s){
+  gecmis.unshift({z: Date.now(), ch, o, s: s || 0});
+  gecmis = gecmis.slice(0, GECMIS_MAX);
+  depo.yaz("rk_gecmis", gecmis); yayinla("gecmis", gecmis); gecmisCiz();
+}
+const ss = t => new Date(t).toLocaleTimeString("tr-TR", {hour:"2-digit", minute:"2-digit"});
+function sureYazi(s){ const h = Math.floor(s/3600), m = Math.round(s%3600/60); return (h ? h + " sa " : "") + (m ? m + " dk" : "").trim(); }
+function gunAdi(t){
+  const g = new Date(t); g.setHours(0,0,0,0); const b = new Date(); b.setHours(0,0,0,0);
+  const fark = Math.round((b - g) / 864e5);
+  return fark === 0 ? "Bugün" : fark === 1 ? "Dün" : new Date(t).toLocaleDateString("tr-TR", {day:"numeric", month:"long", weekday:"long"});
+}
+function gecmisCiz(){
+  const el = $("gecmisListe");
+  if(!gecmis.length){ el.innerHTML = '<div class="bos">Henüz kayıt yok</div>'; return; }
+  el.textContent = ""; let sonGun = "";
+  for(const x of gecmis){
+    const g = gunAdi(x.z);
+    if(g !== sonGun){ el.insertAdjacentHTML("beforeend", '<div class="gun"></div>'); el.lastChild.textContent = g; sonGun = g; }
+    const ad = x.ch < 0 ? "Hepsi" : (isimler[x.ch] || "Kanal " + (x.ch+1));
+    const fiil = x.ch < 0 ? "kapatıldı" : x.o ? "açıldı" : "kapandı";
+    let alt = x.ch < 0 ? "" : "CH" + (x.ch+1);
+    if(x.o && x.s){ const bit = x.z + x.s*1000; alt += " · " + sureYazi(x.s) + " · " + ss(bit) + (bit > Date.now() ? "'de kapanacak" : "'de kapandı"); }
+    else if(x.o) alt += " · süresiz";
+    const d = document.createElement("div"); d.className = "olay";
+    d.innerHTML = '<div class="zaman"></div><div><div><b></b> <span></span></div><div class="alt"></div></div>';
+    d.querySelector(".zaman").textContent = ss(x.z);
+    d.querySelector("b").textContent = ad;
+    const sp = d.querySelector("span"); sp.textContent = fiil; sp.className = x.ch < 0 ? "hk" : x.o ? "ac" : "kp";
+    d.querySelector(".alt").textContent = alt;
+    el.appendChild(d);
+  }
+}
+
+// ---------- Ekran: Kontrol ----------
+const liste = $("liste");
 for(let i=0;i<N;i++){
-  izgara.insertAdjacentHTML("beforeend", `
+  liste.insertAdjacentHTML("beforeend", `
   <div class="kanal" id="k${i}">
-    <div class="ust"><span class="ad" data-i="${i}"></span><span class="no">CH${i+1}</span></div>
-    <button class="anahtar" data-i="${i}">KAPALI</button>
-    <div class="sure">
-      <select id="s${i}">
-        <option value="300">5 dk</option><option value="600" selected>10 dk</option>
-        <option value="900">15 dk</option><option value="1200">20 dk</option>
-        <option value="1800">30 dk</option><option value="2700">45 dk</option>
-        <option value="3600">1 saat</option><option value="5400">1,5 saat</option>
-        <option value="7200">2 saat</option>
-      </select>
-      <button data-sure="${i}">Süreli aç</button>
-    </div>
-    <div class="geri" id="g${i}"></div>
+    <div class="ust"><span class="ad"></span><span class="kalan" id="g${i}"></span><button class="anahtar" data-i="${i}" aria-label="Aç/kapat"></button></div>
+    <div class="hizli">${HIZLI.map(([sn, y]) => `<button data-i="${i}" data-sn="${sn}">${y}</button>`).join("")}</div>
   </div>`);
 }
 function ciz(){
+  let acik = 0;
   for(let i=0;i<N;i++){
-    const k = document.getElementById("k"+i);
+    const k = $("k"+i);
     k.classList.toggle("on", roleler[i]);
-    k.querySelector(".anahtar").textContent = roleler[i] ? "AÇIK" : "KAPALI";
+    k.style.display = gizli.includes(i) ? "none" : "";
     k.querySelector(".ad").textContent = isimler[i];
+    if(roleler[i]) acik++;
   }
+  $("ozet").textContent = acik ? acik + " cihaz açık" : "Hepsi kapalı";
   sayacCiz();
 }
 function sayacCiz(){
   const simdi = Date.now();
   for(let i=0;i<N;i++){
-    const t = sayaclar[i];
-    const el = document.getElementById("g"+i);
+    const t = sayaclar[i], el = $("g"+i);
     if(t && t > simdi && roleler[i]){
       const s = Math.round((t - simdi)/1000), h = Math.floor(s/3600), m = Math.floor(s%3600/60), sn = s%60;
-      el.textContent = "⏱ Kapanmaya: " + (h ? h+" sa " : "") + String(m).padStart(2,"0") + ":" + String(sn).padStart(2,"0");
+      el.textContent = "⏱ " + (h ? h + ":" + String(m).padStart(2,"0") : m) + ":" + String(sn).padStart(2,"0");
     } else el.textContent = "";
   }
 }
-function bilgi(t){ const b = document.getElementById("bilgi"); b.textContent = t; b.style.opacity = 1; clearTimeout(bilgi.z); bilgi.z = setTimeout(() => b.style.opacity = 0, 2500); }
-function log(t){ document.getElementById("log").textContent = new Date().toLocaleTimeString("tr-TR") + "  " + t; }
-function durumYaz(){
-  const d = document.getElementById("durum");
-  if(!ayar.kod) return;
-  const cevapYok = bagli && Date.now() - sonCevap > 15000;
-  if(!bagli && Date.now() - sonYeniden < 8000) return;
-  d.innerHTML = !bagli ? '<span class="nokta" style="background:#e74c3c"></span>Sunucuya bağlanılamıyor'
-    : cevapYok ? '<span class="nokta" style="background:#f39c12"></span>Sunucuya bağlı, kart cevap vermiyor'
-    : '<span class="nokta" style="background:#2ecc71"></span>Kart bağlı';
-}
-
-// ---------- Olaylar ----------
-izgara.addEventListener("click", e => {
-  const a = e.target.closest(".anahtar"), s = e.target.closest("[data-sure]"), ad = e.target.closest(".ad");
+liste.addEventListener("click", e => {
+  const a = e.target.closest(".anahtar"), h = e.target.closest("[data-sn]");
   if(a){
-    const i = +a.dataset.i;
-    if(gonder(roleler[i] ? KOMUT.kapat(i) : KOMUT.ac(i))){ delete sayaclar[i]; delete yenileme[i]; kaydetSayac(); }
-  } else if(s){
-    sureliAc(+s.dataset.sure, +document.getElementById("s"+s.dataset.sure).value);
-  } else if(ad){
-    const i = +ad.dataset.i;
-    const yeni = window.prompt("CH" + (i+1) + " için isim:", isimler[i]);
-    if(yeni && yeni.trim()){
-      isimler[i] = yeni.trim().slice(0,30); depo.yaz("rk_isimler", isimler); ciz();
-      if(istemci && bagli) istemci.publish(konu("isimler"), JSON.stringify(isimler), {qos:1, retain:true});
+    const i = +a.dataset.i, yeni = !roleler[i];
+    if(gonder(yeni ? KOMUT.ac(i) : KOMUT.kapat(i))){
+      delete sayaclar[i]; delete yenileme[i]; kaydetSayac();
+      roleler[i] = yeni; ciz(); olayEkle(i, yeni ? 1 : 0);
     }
-  }
+  } else if(h) sureliAc(+h.dataset.i, +h.dataset.sn);
 });
-document.getElementById("hepsiBtn").onclick = () => {
-  if(window.confirm("Tüm röleler kapatılsın mı?") && gonder(KOMUT.hepsi())){ sayaclar = {}; yenileme = {}; kaydetSayac(); }
-};
-document.getElementById("ayarBtn").onclick = () => {
-  aSunucu.value = ayar.sunucu; aKod.value = ayar.kod;
-  document.getElementById("ayarlar").classList.toggle("gizli");
-};
-document.getElementById("kapatAyar").onclick = () => document.getElementById("ayarlar").classList.add("gizli");
-document.getElementById("kaydetBtn").onclick = () => {
-  ayar = { sunucu: aSunucu.value.trim(), kod: aKod.value.trim() };
-  depo.yaz("rk_ayar", ayar);
-  document.getElementById("ayarlar").classList.add("gizli");
-  baglan();
+$("hepsiBtn").onclick = () => {
+  if(window.confirm("Tüm röleler kapatılsın mı?") && gonder(KOMUT.hepsi())){
+    sayaclar = {}; yenileme = {}; kaydetSayac(); roleler.fill(false); ciz(); olayEkle(-1, 0);
+  }
 };
 
 // ---------- Sureli acma ----------
 // <= 54 dk: sureyi KART sayar (sayfa kapansa da zamaninda kapanir).
 // > 54 dk: sayfa acik kaldikca 54'er dakikalik parcalarla yenilenir; sayfa kapanirsa role en gec 54 dk icinde kendi kapanir.
 function sureliAc(i, sn){
-  const bitis = Date.now() + sn*1000;
   if(!gonder(KOMUT.sureli(i, Math.min(sn, KART_MAX_SN)))) return;
-  sayaclar[i] = bitis; yenileme[i] = Date.now(); kaydetSayac();
-  bilgi("CH" + (i+1) + " " + Math.round(sn/60) + " dk açıldı");
+  sayaclar[i] = Date.now() + sn*1000; yenileme[i] = Date.now(); kaydetSayac();
+  roleler[i] = true; ciz(); olayEkle(i, 1, sn);
+  bilgi(isimler[i] + " " + sureYazi(sn) + " açıldı");
   setTimeout(() => gonder(KOMUT.oku(), true), 1200);
 }
 setInterval(() => {
@@ -238,59 +301,116 @@ setInterval(() => {
   for(const k in sayaclar){
     const i = +k, kalan = (sayaclar[k] - simdi)/1000;
     if(kalan <= 0){ delete sayaclar[k]; delete yenileme[k]; kaydetSayac(false); continue; }
-    // 54 dk'dan uzun surelerde: kartin sayaci bitmeden ~60 sn once yeni parca gonder
     const son = yenileme[k] || simdi;
-    if(simdi - son >= (KART_MAX_SN - 60)*1000 && kalan > 5){
-      if(gonder(KOMUT.sureli(i, Math.min(kalan, KART_MAX_SN)))){ yenileme[k] = simdi; kaydetSayac(false); log("CH" + (i+1) + " süresi yenilendi"); }
+    if(simdi - son >= (KART_MAX_SN - 60)*1000 && kalan > 5 && bagli && !kartYok()){
+      if(gonder(KOMUT.sureli(i, Math.min(kalan, KART_MAX_SN)), true)){ yenileme[k] = simdi; kaydetSayac(false); log("CH" + (i+1) + " süresi yenilendi"); }
     }
   }
-  sayacCiz();
-  durumYaz();
+  sayacCiz(); durumYaz(); saatYaz();
 }, 1000);
 
+// ---------- Ekran: Isimler ----------
+const isimListe = $("isimListe");
+for(let i=0;i<N;i++){
+  isimListe.insertAdjacentHTML("beforeend", `
+  <div class="isim" id="i${i}"><span class="no">CH${i+1}</span>
+    <input type="text" maxlength="30" data-i="${i}">
+    <label><input type="checkbox" data-g="${i}"> Göster</label></div>`);
+}
+function isimCiz(){
+  for(let i=0;i<N;i++){
+    const r = $("i"+i), inp = r.querySelector("input[type=text]");
+    if(document.activeElement !== inp) inp.value = isimler[i];
+    r.querySelector("input[type=checkbox]").checked = !gizli.includes(i);
+    r.classList.toggle("gizlendi", gizli.includes(i));
+  }
+}
+isimListe.addEventListener("change", e => {
+  const t = e.target;
+  if(t.dataset.i !== undefined){
+    const i = +t.dataset.i, v = t.value.trim().slice(0,30) || "Kanal " + (i+1);
+    t.value = v; if(v === isimler[i]) return;
+    isimler[i] = v; depo.yaz("rk_isimler", isimler); yayinla("isimler", isimler);
+    ciz(); gecmisCiz(); bilgi("Kaydedildi");
+  } else if(t.dataset.g !== undefined){
+    const i = +t.dataset.g;
+    gizli = t.checked ? gizli.filter(x => x !== i) : [...new Set([...gizli, i])].sort((a,b) => a-b);
+    depo.yaz("rk_gizli", gizli); yayinla("gizli", gizli); ciz(); isimCiz();
+  }
+});
+
+// ---------- Sekmeler, saat, bilgi ----------
+document.querySelector("nav").addEventListener("click", e => {
+  const b = e.target.closest("[data-sekme]"); if(!b) return;
+  document.querySelectorAll("nav button").forEach(x => x.classList.toggle("akt", x === b));
+  document.querySelectorAll(".sayfa").forEach(x => x.classList.toggle("akt", x.id === b.dataset.sekme));
+  if(b.dataset.sekme === "gecmis") gecmisCiz();
+  if(b.dataset.sekme === "isimler"){ isimCiz(); $("aKod").value = ayar.kod; $("aSunucu").value = ayar.sunucu; }
+  window.scrollTo(0, 0);
+});
+function saatYaz(){
+  const s = new Date();
+  $("saat").textContent = s.toLocaleDateString("tr-TR", {day:"numeric", month:"short", weekday:"short"}) + " · " + ss(s);
+}
+function bilgi(t){ const b = $("bilgi"); b.textContent = t; b.style.opacity = 1; clearTimeout(bilgi.z); bilgi.z = setTimeout(() => b.style.opacity = 0, 2500); }
+function log(t){ $("log").textContent = new Date().toLocaleTimeString("tr-TR") + "  " + t; }
+
+// ---------- Gizli kod / baglanti ayarlari ----------
+function kurulumAc(){ $("kKod").value = ""; $("kurulum").classList.add("goster"); }
+$("kBtn").onclick = () => {
+  const k = $("kKod").value.trim(); if(!k) return;
+  ayar.kod = k; depo.yaz("rk_ayar", ayar); $("kurulum").classList.remove("goster"); baglan();
+};
+$("kaydetBtn").onclick = () => {
+  ayar = { sunucu: $("aSunucu").value.trim() || VARSAYILAN.sunucu, kod: $("aKod").value.trim() };
+  depo.yaz("rk_ayar", ayar);
+  if(!ayar.kod) kurulumAc(); else { bilgi("Bağlanılıyor…"); baglan(); }
+};
+
 // ---------- MQTT ----------
-let sonYeniden = 0;
 function yenidenBaglan(){
-  if(Date.now() - sonYeniden < 2000) return;   // ust uste tetiklenmesin
-  sonYeniden = Date.now();
+  if(Date.now() - sonYeniden < 2000) return;
   baglan();
 }
 function baglan(){
   sonYeniden = Date.now();
+  if(typeof mqtt === "undefined"){ $("durum").textContent = "Sayfa tam yüklenemedi, internet bağlantısını kontrol edip sayfayı yenileyin"; return; }
   if(istemci){ try { istemci.removeAllListeners(); istemci.end(true); } catch(e){} }
   bagli = false; bekleyen = [];
-  document.getElementById("durum").innerHTML = '<span class="nokta" style="background:#f39c12"></span>Bağlanıyor…';
+  durumYaz();
   istemci = mqtt.connect(ayar.sunucu, {
     clientId: "telefon-" + Math.random().toString(16).slice(2, 10),
     reconnectPeriod: 3000, connectTimeout: 10000, keepalive: 30, clean: true
   });
   istemci.on("connect", () => {
-    bagli = true; durumYaz();
-    istemci.subscribe([konu("cevap"), konu("isimler"), konu("sayaclar")], {qos:0});
+    bagli = true; baglanmaAni = Date.now(); durumYaz();
+    istemci.subscribe(["cevap","isimler","sayaclar","gecmis","gizli"].map(konu), {qos:0});
     gonder(KOMUT.oku(), true);
     kuyruguGonder();
   });
   istemci.on("close", () => { bagli = false; durumYaz(); });
   istemci.on("error", e => log("Hata: " + (e && e.message)));
-  istemci.on("message", (gelenKonu, msj) => {
-    if(gelenKonu === konu("sayaclar")){
-      try {
-        const g = JSON.parse(new TextDecoder().decode(msj) || "{}");
+  istemci.on("message", (k, msj) => {
+    if(k !== konu("cevap")){
+      let v; try { v = JSON.parse(new TextDecoder().decode(msj) || "null"); } catch(e){ return; }
+      if(k === konu("sayaclar") && v && typeof v === "object"){
         const simdi = Date.now(), yeni = {};
-        for(const k in g){ const t = +g[k]; if(t > simdi && +k >= 0 && +k < N) yeni[k] = t; }
-        for(const k in yenileme) if(!(k in yeni)) delete yenileme[k];
-        for(const k in yeni) if(!(k in yenileme)) yenileme[k] = simdi;   // baska cihazdan geldiyse bu cihaz da yenileyebilsin
+        for(const x in v){ const t = +v[x]; if(t > simdi && +x >= 0 && +x < N) yeni[x] = t; }
+        for(const x in yenileme) if(!(x in yeni)) delete yenileme[x];
+        for(const x in yeni) if(!(x in yenileme)) yenileme[x] = simdi;
         sayaclar = yeni; kaydetSayac(false); sayacCiz();
-      } catch(e){}
-      return;
-    }
-    if(gelenKonu === konu("isimler")){
-      try { const a = JSON.parse(new TextDecoder().decode(msj)); if(Array.isArray(a) && a.length === N){ isimler = a.map(String); depo.yaz("rk_isimler", isimler); ciz(); } } catch(e){}
+      } else if(k === konu("isimler") && Array.isArray(v) && v.length === N){
+        isimler = v.map(String); depo.yaz("rk_isimler", isimler); ciz(); isimCiz(); gecmisCiz();
+      } else if(k === konu("gizli") && Array.isArray(v)){
+        gizli = v.map(Number).filter(x => x >= 0 && x < N); depo.yaz("rk_gizli", gizli); ciz(); isimCiz();
+      } else if(k === konu("gecmis") && Array.isArray(v)){
+        gecmis = v.filter(x => x && typeof x.z === "number").slice(0, GECMIS_MAX); depo.yaz("rk_gecmis", gecmis); gecmisCiz();
+      }
       return;
     }
     const b = new Uint8Array(msj);
     sonCevap = Date.now();
-    if(b[1] === 5){ const anahtar = Array.from(b).join(","); bekleyen = bekleyen.filter(x => x.b !== anahtar); }
+    if(b[1] === 5){ const a = Array.from(b).join(","); bekleyen = bekleyen.filter(x => x.b !== a); }
     log("← " + hx(b));
     if(b.length >= 3 && b[1] === 1){
       for(let i=0;i<N;i++) roleler[i] = !!((b[3 + (i>>3)] >> (i&7)) & 1);
@@ -302,26 +422,15 @@ function baglan(){
     ciz(); durumYaz();
   });
 }
-// durumu duzenli tazele (baska cihazdan yapilan degisiklikler ve kartin kendi kapattiklari icin)
-setInterval(() => { if(bagli) gonder(KOMUT.oku(), true); }, 5000);
-// iPhone kilitlenip acilinca baglanti sessizce kopar: ekrana donunce HER ZAMAN yeniden baglan
-let sonGorunur = Date.now();
-function ekranaDondu(){
-  if(document.hidden) { sonGorunur = Date.now(); return; }
-  if(ayar.kod) yenidenBaglan();
-}
-document.addEventListener("visibilitychange", ekranaDondu);
-window.addEventListener("pageshow", e => { if(e.persisted) ekranaDondu(); });
+setInterval(() => { if(bagli) gonder(KOMUT.oku(), true); }, 5000);   // durumu duzenli tazele
+// iPhone kilitlenip acilinca baglanti sessizce kopar: ekrana donunce yeniden baglan
+document.addEventListener("visibilitychange", () => { if(!document.hidden && ayar.kod) yenidenBaglan(); });
+window.addEventListener("pageshow", e => { if(e.persisted && ayar.kod) yenidenBaglan(); });
 window.addEventListener("online", () => { if(ayar.kod) yenidenBaglan(); });
+window.addEventListener("offline", durumYaz);
 
-ciz();
-if(!ayar.kod){
-  aSunucu.value = ayar.sunucu; aKod.value = "";
-  document.getElementById("ayarlar").classList.remove("gizli");
-  document.getElementById("kodUyari").classList.remove("gizli");
-  document.getElementById("durum").innerHTML = '<span class="nokta" style="background:#f39c12"></span>Gizli kod girilmedi';
-} else if(typeof mqtt === "undefined"){ document.getElementById("durum").textContent = "MQTT kütüphanesi yüklenemedi (internet bağlantısını kontrol edin)"; }
-else baglan();
+saatYaz(); ciz(); isimCiz(); gecmisCiz();
+if(!ayar.kod){ kurulumAc(); durumYaz(); } else baglan();
 </script>
 </body>
 </html>
