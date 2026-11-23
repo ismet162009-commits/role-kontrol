@@ -139,7 +139,7 @@
     <button class="yesilBtn" id="kaydetBtn">Kaydet ve bağlan</button>
     <div id="log"></div>
   </details>
-  <div class="surum">Sürüm 6.2 · 23.11.2026</div>
+  <div class="surum">Sürüm 6.3 · 23.11.2026</div>
 </section>
 
 <div id="kurulum"><div class="kutu">
@@ -242,8 +242,11 @@ function durumYaz(){
   else if(kartYok()){ renk = "#e74c3c"; yazi = "Kart çevrimdışı (evde elektrik veya internet yok olabilir)"; pasif = true; }
   else if(sonCevap < baglanmaAni){ renk = "#f39c12"; yazi = "Kart bekleniyor…"; }
   else { renk = "#2ecc71"; yazi = "Kart bağlı"; }
+  if(!bagli || sonCevap < baglanmaAni) pasif = true;     // durum karttan dogrulanmadi -> soluk goster
   d.innerHTML = '<span class="nokta" style="background:' + renk + '"></span>' + yazi;
   $("liste").classList.toggle("pasif", pasif);
+  const oz = $("ozet"); if(oz) oz.dataset.eski = pasif ? "1" : "";
+  ozetYaz();
 }
 
 // ---------- Komut gonderme ----------
@@ -256,21 +259,31 @@ function gonder(b, sessiz){
     yenidenBaglan();
     return !sessiz;
   }
-  istemci.publish(konu("komut"), b, {qos:0});
-  if(b[1] === 5) bekleyen.push({b: Array.from(b).join(","), ham: b, zaman: Date.now(), deneme: (b._deneme || 0)});
+  // Yazma komutlari QoS1: sunucu "aldim" (PUBACK) derse sunucu baglantisi saglam demektir.
+  const x = b[1] === 5 ? {b: Array.from(b).join(","), ham: b, zaman: Date.now(), deneme: (b._deneme || 0), ack: false} : null;
+  istemci.publish(konu("komut"), b, {qos: x ? 1 : 0}, err => { if(x && !err) x.ack = true; });
+  if(x) bekleyen.push(x);
   log("→ " + hx(b));
   return true;
 }
 function kuyruguGonder(){ const k = kuyruk; kuyruk = []; k.forEach(b => gonder(b)); }
-setInterval(() => {               // 3 sn icinde onaylanmayan komutu bir kez daha dene
-  const simdi = Date.now();
-  const geciken = bekleyen.filter(x => simdi - x.zaman > 3000);
-  if(!geciken.length) return;
-  bekleyen = bekleyen.filter(x => simdi - x.zaman <= 3000);
-  const tekrar = geciken.filter(x => x.deneme < 1);
-  tekrar.forEach(x => { x.ham._deneme = x.deneme + 1; kuyruk.push(x.ham); });
-  bilgi(tekrar.length ? "Komut ulaşmadı, tekrar gönderiliyor…" : "Kart cevap vermiyor");
-  sonYeniden = 0; yenidenBaglan();
+setInterval(() => {
+  // Sunucu komutu almadiysa (PUBACK yok, 6 sn) -> baglanti kopmus: yeniden baglan, komutu tekrar gonder.
+  // Sunucu aldi ama kart 4 sn'de cevap vermediyse -> baglantiyi KOPARMA, komutu bir kez daha gonder.
+  const simdi = Date.now(); let kopuk = false, yavas = false, olmadi = false;
+  bekleyen = bekleyen.filter(x => {
+    const sure = simdi - x.zaman;
+    if(!x.ack && sure > 6000){ kopuk = true; if(x.deneme < 1){ x.ham._deneme = x.deneme + 1; kuyruk.push(x.ham); } return false; }
+    if(x.ack && sure > 4000){
+      if(x.deneme < 1){ x.ham._deneme = x.deneme + 1; yavas = true; setTimeout(() => gonder(x.ham), 0); }
+      else olmadi = true;
+      return false;
+    }
+    return true;
+  });
+  if(kopuk){ bilgi("Sunucu bağlantısı koptu, yeniden bağlanıp tekrar gönderiliyor…"); sonYeniden = 0; yenidenBaglan(); }
+  else if(olmadi) bilgi("Kart cevap vermiyor");
+  else if(yavas) bilgi("Kart geç cevap veriyor, tekrar gönderiliyor…");
 }, 1000);
 
 // ---------- Gecmis ----------
@@ -326,8 +339,13 @@ function ciz(){
     k.querySelector(".ad").textContent = isimler[i];
     if(roleler[i]) acik++;
   }
-  $("ozet").textContent = acik ? acik + " cihaz açık" : "Hepsi kapalı";
+  ozetYaz(acik);
   sayacCiz();
+}
+function ozetYaz(acik){
+  if(acik === undefined) acik = roleler.filter(Boolean).length;
+  const oz = $("ozet"); if(!oz) return;
+  oz.textContent = (acik ? acik + " cihaz açık" : "Hepsi kapalı") + (oz.dataset.eski ? " · son bilinen durum" : "");
 }
 function sayacCiz(){
   const simdi = Date.now();
@@ -572,7 +590,14 @@ function baglan(){
 }
 setInterval(() => { if(bagli) gonder(KOMUT.oku(), true); }, 5000);   // durumu duzenli tazele
 // iPhone kilitlenip acilinca baglanti sessizce kopar: ekrana donunce yeniden baglan
-document.addEventListener("visibilitychange", () => { if(!document.hidden && ayar.kod) yenidenBaglan(); });
+// Kisa sureli pencere degisiminde baglantiyi yenileme; uzun sure gizli kaldiysa (telefon kilidi vb.) yenile.
+let gizlenmeAni = 0;
+document.addEventListener("visibilitychange", () => {
+  if(document.hidden){ gizlenmeAni = Date.now(); return; }
+  if(!ayar.kod) return;
+  if(!bagli || Date.now() - gizlenmeAni > 20000) yenidenBaglan();
+  else gonder(KOMUT.oku(), true);
+});
 window.addEventListener("pageshow", e => { if(e.persisted && ayar.kod) yenidenBaglan(); });
 window.addEventListener("online", () => { if(ayar.kod) yenidenBaglan(); });
 window.addEventListener("offline", durumYaz);
