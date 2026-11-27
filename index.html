@@ -139,7 +139,7 @@
     <button class="yesilBtn" id="kaydetBtn">Kaydet ve bağlan</button>
     <div id="log"></div>
   </details>
-  <div class="surum">Sürüm 6.3 · 23.11.2026</div>
+  <div class="surum">Sürüm 6.4 · 27.11.2026</div>
 </section>
 
 <div id="kurulum"><div class="kutu">
@@ -197,6 +197,7 @@ let gecmis = depo.al("rk_gecmis", []);            // [{z, ch, o, s}]  ch=-1: hep
 let roleler = Array(N).fill(false);
 let sayaclar = depo.al("rk_sayac", {});           // kanal -> bitis zamani (ms)
 let yenileme = depo.al("rk_yenileme", {});        // kanal -> karta son sureli komut ani
+let bekleyenSayac = depo.al("rk_sayac_bekleyen", {}); // sunucuya henuz ULASMAMIS sayac degisiklikleri: kanal -> bitis (0 = silindi)
 let istemci = null, bagli = false, sonCevap = 0, baglanmaAni = 0, sonYeniden = 0;
 let oturum = depo.al("rk_oturum", null);            // {a: kullanici adi} -> bir kez giris yapilinca saklanir
 let kullanicilar = depo.al("rk_kullanicilar", []);  // [{a, t: tuz, h: sifre ozeti, y: 1 yonetici / 0 kullanici}]
@@ -214,9 +215,26 @@ function kullanicilariKaydet(){ depo.yaz("rk_kullanicilar", kullanicilar); yayin
 const bekle = (kosul, ms) => new Promise(ok => { const bas = Date.now(); const t = setInterval(() => { if(kosul()){ clearInterval(t); ok(true); } else if(Date.now() - bas > ms){ clearInterval(t); ok(false); } }, 100); });
 
 function yayinla(k, veri){ if(istemci && bagli) istemci.publish(konu(k), JSON.stringify(veri), {qos:1, retain:true}); }
+// Sayac degisikligi: once yerelde tutulur, sunucu "aldim" (PUBACK) diyene kadar "bekleyen" olarak kalir.
+// Baglanti koparsa kaybolmaz; baglanti gelince sunucudaki listeyle birlestirilip tekrar gonderilir.
+function sayacDegis(i, bitis){
+  if(bitis) sayaclar[i] = bitis; else delete sayaclar[i];
+  bekleyenSayac[i] = bitis || 0;
+}
+function sayacPaylas(){
+  depo.yaz("rk_sayac_bekleyen", bekleyenSayac);
+  if(!istemci || !bagli || !Object.keys(bekleyenSayac).length) return;
+  const giden = Object.assign({}, bekleyenSayac);
+  istemci.publish(konu("sayaclar"), JSON.stringify(sayaclar), {qos:1, retain:true}, err => {
+    if(err) return;
+    for(const k in giden) if(bekleyenSayac[k] === giden[k]) delete bekleyenSayac[k];
+    depo.yaz("rk_sayac_bekleyen", bekleyenSayac);
+  });
+}
+setInterval(sayacPaylas, 15000);   // ulasmamis degisiklik kaldiysa duzenli olarak tekrar dene
 function kaydetSayac(paylas){
   depo.yaz("rk_sayac", sayaclar); depo.yaz("rk_yenileme", yenileme);
-  if(paylas !== false) yayinla("sayaclar", sayaclar);
+  if(paylas !== false) sayacPaylas();
 }
 
 // ---------- Modbus ----------
@@ -362,14 +380,14 @@ liste.addEventListener("click", e => {
   if(a){
     const i = +a.dataset.i, yeni = !roleler[i];
     if(gonder(yeni ? KOMUT.ac(i) : KOMUT.kapat(i))){
-      delete sayaclar[i]; delete yenileme[i]; kaydetSayac();
+      sayacDegis(i, 0); delete yenileme[i]; kaydetSayac();
       roleler[i] = yeni; ciz(); olayEkle(i, yeni ? 1 : 0);
     }
   } else if(h) sureliAc(+h.dataset.i, +h.dataset.sn);
 });
 $("hepsiBtn").onclick = () => {
   if(window.confirm("Tüm röleler kapatılsın mı?") && gonder(KOMUT.hepsi())){
-    sayaclar = {}; yenileme = {}; kaydetSayac(); roleler.fill(false); ciz(); olayEkle(-1, 0);
+    for(let i=0;i<N;i++) sayacDegis(i, 0); yenileme = {}; kaydetSayac(); roleler.fill(false); ciz(); olayEkle(-1, 0);
   }
 };
 
@@ -378,7 +396,7 @@ $("hepsiBtn").onclick = () => {
 // > 54 dk: sayfa acik kaldikca 54'er dakikalik parcalarla yenilenir; sayfa kapanirsa role en gec 54 dk icinde kendi kapanir.
 function sureliAc(i, sn){
   if(!gonder(KOMUT.sureli(i, Math.min(sn, KART_MAX_SN)))) return;
-  sayaclar[i] = Date.now() + sn*1000; yenileme[i] = Date.now(); kaydetSayac();
+  sayacDegis(i, Date.now() + sn*1000); yenileme[i] = Date.now(); kaydetSayac();
   roleler[i] = true; ciz(); olayEkle(i, 1, sn);
   bilgi(isimler[i] + " " + sureYazi(sn) + " açıldı");
   setTimeout(() => gonder(KOMUT.oku(), true), 1200);
@@ -543,7 +561,7 @@ function baglan(){
     bagli = true; baglanmaAni = Date.now(); durumYaz();
     istemci.subscribe(["cevap","isimler","sayaclar","gecmis","gizli","kullanicilar"].map(konu), {qos:0}, () => {
       // kayitli liste hic yoksa sunucu bir sey gondermez: kisa bekleyip "liste bos" kabul et
-      setTimeout(() => { if(!kullaniciYuklendi && bagli){ kullanicilar = []; kullaniciYuklendi = true; } }, 2500);
+      setTimeout(() => { if(!kullaniciYuklendi && bagli){ kullanicilar = []; kullaniciYuklendi = true; } sayacPaylas(); }, 2500);
     });
     gonder(KOMUT.oku(), true);
     kuyruguGonder();
@@ -562,9 +580,11 @@ function baglan(){
       if(k === konu("sayaclar") && v && typeof v === "object"){
         const simdi = Date.now(), yeni = {};
         for(const x in v){ const t = +v[x]; if(t > simdi && +x >= 0 && +x < N) yeni[x] = t; }
+        for(const x in bekleyenSayac){ const t = bekleyenSayac[x]; if(t > simdi) yeni[x] = t; else delete yeni[x]; }
         for(const x in yenileme) if(!(x in yeni)) delete yenileme[x];
         for(const x in yeni) if(!(x in yenileme)) yenileme[x] = simdi;
         sayaclar = yeni; kaydetSayac(false); sayacCiz();
+        if(Object.keys(bekleyenSayac).length) sayacPaylas();   // sunucuda eksik olanlari yaz
       } else if(k === konu("isimler") && Array.isArray(v) && v.length === N){
         isimler = v.map(String); depo.yaz("rk_isimler", isimler); ciz(); isimCiz(); gecmisCiz();
       } else if(k === konu("gizli") && Array.isArray(v)){
